@@ -4,7 +4,7 @@
 //
 //  Created by Jan Huecking on 1/5/2025.
 //
-// The main view of the app with navigation to the Marketplace, Your Offers, Your Items and the Account.
+// The main view of the app with navigation to the Marketplace, Your Offers, Your Items and  Account.
 
 import SwiftUI
 
@@ -19,21 +19,38 @@ struct Item: Identifiable {
     let lookingFor: String
 }
 let marcetplaceItems = [
-    Item(title: "Bicycle", imageNames: ["bicycle", "square"], description: "hi", estimatedPrice: 40.0, isPostedOnMarketplace: true, lookingFor: "everything"),
-    Item(title: "Guitar", imageNames: ["note"], description: "hi", estimatedPrice: 40.0,isPostedOnMarketplace: true, lookingFor: "everything"),
-    Item(title: "Camera", imageNames: ["camera"], description: "hi", estimatedPrice: 40.0,isPostedOnMarketplace: true, lookingFor: "everything"),
+    Item(
+        title: "Bicycle", imageNames: ["bicycle", "square"], description: "hi",
+        estimatedPrice: 40.0, isPostedOnMarketplace: true,
+        lookingFor: "everything"),
+    Item(
+        title: "Guitar", imageNames: ["note"], description: "hi",
+        estimatedPrice: 40.0, isPostedOnMarketplace: true,
+        lookingFor: "everything"),
+    Item(
+        title: "Camera", imageNames: ["camera"], description: "hi",
+        estimatedPrice: 40.0, isPostedOnMarketplace: true,
+        lookingFor: "everything"),
 ]
 let yourItems: [Item] = [
-    Item(title: "Guitar", imageNames: ["square"], description: "hi", estimatedPrice: 40.0,isPostedOnMarketplace: true, lookingFor: "everything"),
-    Item(title: "PC", imageNames: ["mail"], description: "hi", estimatedPrice: 40.0,isPostedOnMarketplace: false, lookingFor: "everything"),
-    Item(title: "Shoes", imageNames: ["shoe"], description: "hi", estimatedPrice: 40.0,isPostedOnMarketplace: true, lookingFor: "everything"),
+    Item(
+        title: "Guitar", imageNames: ["square"], description: "hi",
+        estimatedPrice: 40.0, isPostedOnMarketplace: true,
+        lookingFor: "everything"),
+    Item(
+        title: "PC", imageNames: ["mail"], description: "hi",
+        estimatedPrice: 40.0, isPostedOnMarketplace: false,
+        lookingFor: "everything"),
+    Item(
+        title: "Shoes", imageNames: ["shoe"], description: "hi",
+        estimatedPrice: 40.0, isPostedOnMarketplace: true,
+        lookingFor: "everything"),
 ]
 
 struct MainView: View {
     var body: some View {
         NavigationStack {
             TabView {
-
                 MarketplaceView()
                     .tabItem {
                         Label("Marcetplace", systemImage: "magnifyingglass")
@@ -44,7 +61,7 @@ struct MainView: View {
                         Label("Your Offers", systemImage: "megaphone")
                     }
 
-                NavigationLink("This is item creation view") {}
+                ItemCreationView()
                     .tabItem {
                         Label("New Item", systemImage: "plus")
                     }

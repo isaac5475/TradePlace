@@ -4,6 +4,7 @@
 //
 //  Created by Jan Huecking on 1/5/2025.
 //
+// Shows all account informations
 
 import SwiftUI
 

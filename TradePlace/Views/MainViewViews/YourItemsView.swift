@@ -4,6 +4,7 @@
 //
 //  Created by Jan Huecking on 1/5/2025.
 //
+// Shows all items the user owns and has uploaded to the app. It also shows if the item is posted on the marcetplace. The user can edit his items by clicking on it and can add items.
 
 import SwiftUI
 
@@ -46,7 +47,7 @@ struct YourItemsView: View {
                         }
                     }
                 }
-                Button(action: {}) {
+                NavigationLink(destination: ItemCreationView()){
                     VStack {
                         Image(systemName: "plus")
                             .font(.system(size: 40))

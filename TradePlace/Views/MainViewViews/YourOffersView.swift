@@ -4,7 +4,8 @@
 //
 //  Created by Jan Huecking on 1/5/2025.
 //
-// 
+// Allows the user to swipe horizontally through offers made by other users.
+// Each offer shows suggested items, the item they want, and two buttons to accept or decline the offer.
 
 import SwiftUI
 
