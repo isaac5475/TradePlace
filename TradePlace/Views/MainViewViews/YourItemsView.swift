@@ -11,6 +11,14 @@ import SwiftUI
 struct YourItemsView: View {
     var body: some View {
         ScrollView {
+            
+            // Heading
+            Text("Your Items")
+                .font(.largeTitle)
+                .bold()
+                .padding(.bottom)
+ 
+            // Grid for showing the items
             LazyVGrid(
                 columns: [
                     GridItem(.flexible(minimum: 50, maximum: .infinity)),
@@ -36,6 +44,7 @@ struct YourItemsView: View {
                         .cornerRadius(15)
                         .shadow(radius: 2)
 
+                        // all items that are posted on marketplace are signed by a green badge
                         if item.isPostedOnMarketplace {
                             Text("Posted")
                                 .font(.system(size: 11))
@@ -47,6 +56,8 @@ struct YourItemsView: View {
                         }
                     }
                 }
+                
+                //Button to add an item
                 NavigationLink(destination: ItemCreationView()){
                     VStack {
                         Image(systemName: "plus")

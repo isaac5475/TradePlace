@@ -23,12 +23,13 @@ struct ItemCreationView: View {
     var body: some View {
         ScrollView {
             //Heading
-            VStack(alignment: .leading) {
-                Text("New Item")
-                    .font(.largeTitle)
-                    .bold()
-                    .padding(.bottom)
+            Text("New Item")
+                .font(.largeTitle)
+                .bold()
+                .padding(.bottom)
 
+            VStack(alignment: .leading) {
+                
                 //Images
                 //Preview of the selected Images
                 ScrollView(.horizontal) {

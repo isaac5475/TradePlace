@@ -24,6 +24,14 @@ let sampleOffers = [
 
 struct YourOffersView: View {
     var body: some View {
+        
+        // Heading
+        Text("Your Offers")
+            .font(.largeTitle)
+            .bold()
+            .padding(.bottom)
+    
+        // Creating a tap for each offer so that the user can swipe horizontaly to view the offers
         TabView {
             ForEach(sampleOffers) { offer in
                 OfferPageView(offer: offer)
@@ -34,6 +42,7 @@ struct YourOffersView: View {
     }
 }
 
+// View of the offer itself
 struct OfferPageView: View {
     let offer: Offer
     
@@ -61,8 +70,10 @@ struct OfferPageView: View {
 
             Spacer()
 
+            // Buttons to decline and accept
             HStack{
                 Button(action: {}) {
+                    
                     Text("Decline")
                         .font(.title3)
                         .frame(maxWidth: .infinity, minHeight: 80)

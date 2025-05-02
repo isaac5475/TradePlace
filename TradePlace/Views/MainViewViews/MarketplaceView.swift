@@ -11,6 +11,13 @@ import SwiftUI
 struct MarketplaceView: View {
     var body: some View {
         ScrollView {
+            
+            // Heading
+            Text("Marketplace")
+                .font(.largeTitle)
+                .bold()
+                .padding(.bottom)
+            
             LazyVGrid(
                 columns: [
                     GridItem(.flexible(minimum: 50, maximum: .infinity)),
