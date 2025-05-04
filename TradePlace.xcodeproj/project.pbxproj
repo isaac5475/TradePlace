@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C5FA2F282DC734890060EF86 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = C5FA2F272DC734890060EF86 /* FirebaseAnalyticsWithoutAdIdSupport */; };
-		C5FA2F2A2DC734890060EF86 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = C5FA2F292DC734890060EF86 /* FirebaseAppCheck */; };
-		C5FA2F2C2DC734890060EF86 /* FirebaseAppDistribution-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = C5FA2F2B2DC734890060EF86 /* FirebaseAppDistribution-Beta */; };
-		C5FA2F2F2DC734DF0060EF86 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = C5FA2F2E2DC734DF0060EF86 /* FirebaseFirestore */; };
+		8B57DEF22DC73E9000927AFF /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 8B57DEF12DC73E9000927AFF /* FirebaseAnalyticsWithoutAdIdSupport */; };
+		8B57DEF42DC73E9A00927AFF /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 8B57DEF32DC73E9A00927AFF /* FirebaseCore */; };
+		8B57DEF62DC73EA700927AFF /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 8B57DEF52DC73EA700927AFF /* FirebaseFirestore */; };
+		8B57DEF82DC73FB800927AFF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8B57DEF72DC73FB800927AFF /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,6 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8B57DEF72DC73FB800927AFF /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C50494502DC07A1700360A7B /* TradePlace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TradePlace.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C50494602DC07A1A00360A7B /* TradePlaceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TradePlaceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C504946A2DC07A1A00360A7B /* TradePlaceUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TradePlaceUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -59,10 +60,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C5FA2F2A2DC734890060EF86 /* FirebaseAppCheck in Frameworks */,
-				C5FA2F2F2DC734DF0060EF86 /* FirebaseFirestore in Frameworks */,
-				C5FA2F282DC734890060EF86 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
-				C5FA2F2C2DC734890060EF86 /* FirebaseAppDistribution-Beta in Frameworks */,
+				8B57DEF42DC73E9A00927AFF /* FirebaseCore in Frameworks */,
+				8B57DEF22DC73E9000927AFF /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
+				8B57DEF62DC73EA700927AFF /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,14 +83,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8B57DEF02DC73E9000927AFF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		C50494472DC07A1700360A7B = {
 			isa = PBXGroup;
 			children = (
 				C50494522DC07A1700360A7B /* TradePlace */,
 				C50494632DC07A1A00360A7B /* TradePlaceTests */,
 				C504946D2DC07A1A00360A7B /* TradePlaceUITests */,
-				C5FA2F2D2DC734DF0060EF86 /* Frameworks */,
+				8B57DEF02DC73E9000927AFF /* Frameworks */,
 				C50494512DC07A1700360A7B /* Products */,
+				8B57DEF72DC73FB800927AFF /* GoogleService-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -102,13 +110,6 @@
 				C504946A2DC07A1A00360A7B /* TradePlaceUITests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		C5FA2F2D2DC734DF0060EF86 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -131,10 +132,9 @@
 			);
 			name = TradePlace;
 			packageProductDependencies = (
-				C5FA2F272DC734890060EF86 /* FirebaseAnalyticsWithoutAdIdSupport */,
-				C5FA2F292DC734890060EF86 /* FirebaseAppCheck */,
-				C5FA2F2B2DC734890060EF86 /* FirebaseAppDistribution-Beta */,
-				C5FA2F2E2DC734DF0060EF86 /* FirebaseFirestore */,
+				8B57DEF12DC73E9000927AFF /* FirebaseAnalyticsWithoutAdIdSupport */,
+				8B57DEF32DC73E9A00927AFF /* FirebaseCore */,
+				8B57DEF52DC73EA700927AFF /* FirebaseFirestore */,
 			);
 			productName = TradePlace;
 			productReference = C50494502DC07A1700360A7B /* TradePlace.app */;
@@ -219,7 +219,7 @@
 			mainGroup = C50494472DC07A1700360A7B;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				C5FA2F262DC734890060EF86 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				8B57DEEF2DC73E5B00927AFF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C50494512DC07A1700360A7B /* Products */;
@@ -238,6 +238,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B57DEF82DC73FB800927AFF /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,7 +425,6 @@
 				DEVELOPMENT_ASSET_PATHS = "\"TradePlace/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = TradePlace/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -453,7 +453,6 @@
 				DEVELOPMENT_ASSET_PATHS = "\"TradePlace/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = TradePlace/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -582,7 +581,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		C5FA2F262DC734890060EF86 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+		8B57DEEF2DC73E5B00927AFF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
 			requirement = {
@@ -593,24 +592,19 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		C5FA2F272DC734890060EF86 /* FirebaseAnalyticsWithoutAdIdSupport */ = {
+		8B57DEF12DC73E9000927AFF /* FirebaseAnalyticsWithoutAdIdSupport */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C5FA2F262DC734890060EF86 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 8B57DEEF2DC73E5B00927AFF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAnalyticsWithoutAdIdSupport;
 		};
-		C5FA2F292DC734890060EF86 /* FirebaseAppCheck */ = {
+		8B57DEF32DC73E9A00927AFF /* FirebaseCore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C5FA2F262DC734890060EF86 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAppCheck;
+			package = 8B57DEEF2DC73E5B00927AFF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
 		};
-		C5FA2F2B2DC734890060EF86 /* FirebaseAppDistribution-Beta */ = {
+		8B57DEF52DC73EA700927AFF /* FirebaseFirestore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C5FA2F262DC734890060EF86 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = "FirebaseAppDistribution-Beta";
-		};
-		C5FA2F2E2DC734DF0060EF86 /* FirebaseFirestore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C5FA2F262DC734890060EF86 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 8B57DEEF2DC73E5B00927AFF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestore;
 		};
 /* End XCSwiftPackageProductDependency section */
