@@ -7,13 +7,22 @@
 
 import SwiftUI
 
+
 struct ContentView: View {
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Button("Get data") {
+                print("get data clicked")
+                Task {
+                    print("getting document")
+                    await getData()
+                }
+            }
+            Button("upload data") {
+                Task {
+                    await writeData()
+                }
+            }
         }
         .padding()
     }
