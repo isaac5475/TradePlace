@@ -14,8 +14,9 @@ struct TradeItem {
     let title: String;
     let description: String;
     let estimatedPrice: Double;
-    let preferences: String;
-    var isPostedOnMarketplace: Bool;
-    let belongsTo: User;
+    let lookingFor: String;
+    var isPosted: Bool;
+    //let belongsTo: User;
 }
+
 

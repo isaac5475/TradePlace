@@ -30,6 +30,7 @@ struct YourOffersView: View {
             .font(.largeTitle)
             .bold()
             .padding(.bottom)
+            .padding(.top)
     
         // Creating a tap for each offer so that the user can swipe horizontaly to view the offers
         TabView {

@@ -19,6 +19,7 @@ struct ItemCreationView: View {
 
     @State private var selectedItems = [PhotosPickerItem]()
     @State private var selectedImages = [Image]()
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         ScrollView {
@@ -29,7 +30,7 @@ struct ItemCreationView: View {
                 .padding(.bottom)
 
             VStack(alignment: .leading) {
-                
+
                 //Images
                 //Preview of the selected Images
                 ScrollView(.horizontal) {
@@ -67,8 +68,6 @@ struct ItemCreationView: View {
                 TextField("Enter a Title", text: $title)
                     .padding(.bottom, 20)
 
-                
-
                 Text("Description")
                 TextEditor(text: $description)
                     .frame(minHeight: 80, maxHeight: 120)
@@ -90,7 +89,7 @@ struct ItemCreationView: View {
                         .frame(width: 100)
                 }
                 .padding(.bottom, 20)
-                
+
                 // Items user is looking for
                 Text("Looking for")
                 TextField("Enter items you are looking for", text: $lookingFor)
@@ -104,6 +103,7 @@ struct ItemCreationView: View {
                 //Buttons to cancel and save the item, saving is only possible if images are selected and title, description are entered
                 HStack {
                     Button {
+                        dismiss()
                     } label: {
                         Text("Cancel")
                             .font(.title3)
@@ -112,13 +112,23 @@ struct ItemCreationView: View {
                     .buttonStyle(.bordered)
 
                     Button {
+                        let newItem = TradeItem(
+                            photos: selectedImages,
+                            title: title,
+                            description: description,
+                            estimatedPrice: Double(estimatedPrice)!,
+                            lookingFor: lookingFor,
+                            isPosted: isPosted
+                        )
                     } label: {
                         Text("Save Item")
                             .font(.title3)
                             .frame(maxWidth: .infinity)
                     }
                     .buttonStyle(.borderedProminent)
-                    .disabled(title.isEmpty || description.isEmpty || selectedImages.isEmpty)
+                    .disabled(
+                        title.isEmpty || description.isEmpty
+                            || selectedImages.isEmpty)
                 }
                 .padding(.top)
             }
@@ -137,9 +147,11 @@ struct ItemCreationView: View {
                         selectedImages.append(image)
                     }
                 }
+
             }
         }
     }
+
 }
 
 #Preview {

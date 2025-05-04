@@ -11,8 +11,8 @@ struct TradeOffer {
     let id = UUID();
     let forItem: TradeItem;
     var offeredItems: [TradeItem];
-    let fromUser: User;
-    let toUser: User;
+    //let fromUser: User;
+    //let toUser: User;
     var status: TradeOfferStatus;
     let createdAt: Date;
     var updatedAt: Date;
