@@ -24,14 +24,7 @@ let sampleOffers = [
 
 struct YourOffersView: View {
     var body: some View {
-        
-        // Heading
-        Text("Your Offers")
-            .font(.largeTitle)
-            .bold()
-            .padding(.bottom)
-            .padding(.top)
-    
+
         // Creating a tap for each offer so that the user can swipe horizontaly to view the offers
         TabView {
             ForEach(sampleOffers) { offer in
@@ -48,7 +41,15 @@ struct OfferPageView: View {
     let offer: Offer
     
     var body: some View {
+       
         VStack{
+            // Heading
+            Text("Your Offers")
+                .font(.largeTitle)
+                .bold()
+                .padding(.bottom)
+                .padding(.top)
+        
             Spacer()
             
             Text("\(offer.fromUser) suggests:")
@@ -77,7 +78,7 @@ struct OfferPageView: View {
                     
                     Text("Decline")
                         .font(.title3)
-                        .frame(maxWidth: .infinity, minHeight: 80)
+                        .frame(maxWidth: .infinity, minHeight: 70)
                         .padding()
                         .background(Color.red)
                         .foregroundColor(.white)
@@ -87,7 +88,7 @@ struct OfferPageView: View {
                 Button(action: {}) {
                     Text("Accept")
                         .font(.title3)
-                        .frame(maxWidth: .infinity, minHeight: 80)
+                        .frame(maxWidth: .infinity, minHeight: 70)
                         .padding()
                         .background(Color.green)
                         .foregroundColor(.white)

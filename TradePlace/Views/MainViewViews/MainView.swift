@@ -53,7 +53,7 @@ struct MainView: View {
             TabView {
                 MarketplaceView()
                     .tabItem {
-                        Label("Marcetplace", systemImage: "magnifyingglass")
+                        Label("Marketplace", systemImage: "magnifyingglass")
                     }
 
                 YourOffersView()
