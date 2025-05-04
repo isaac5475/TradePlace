@@ -113,12 +113,12 @@ struct ItemCreationView: View {
 
                     Button {
                         let newItem = TradeItem(
-                            photos: selectedImages,
+                            images: selectedImages,
                             title: title,
                             description: description,
                             estimatedPrice: Double(estimatedPrice)!,
-                            lookingFor: lookingFor,
-                            isPosted: isPosted
+                            preferences: lookingFor,
+                            isPostedOnMarketplace: isPosted
                         )
                     } label: {
                         Text("Save Item")

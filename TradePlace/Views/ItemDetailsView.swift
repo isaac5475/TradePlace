@@ -9,23 +9,25 @@
 import SwiftUI
 
 struct ItemDetailsView: View {
-    @State var item: Item
+    @State var item: TradeItem
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 15) {
 
                 // Images
-                TabView {
-                    ForEach(item.imageNames, id: \.self) { imageName in
-                        Image(systemName: imageName)
-                            .resizable()
-                            .scaledToFit()
-                    }
-                }
-                .tabViewStyle(PageTabViewStyle())
-                .indexViewStyle(.page(backgroundDisplayMode: .always))
-                .frame(height: 250)
+                //  TODO: change to process images
+                
+//                TabView {
+//                    ForEach(item.imageNames, id: \.self) { imageName in
+//                        Image(systemName: imageName)
+//                            .resizable()
+//                            .scaledToFit()
+//                    }
+//                }
+//                .tabViewStyle(PageTabViewStyle())
+//                .indexViewStyle(.page(backgroundDisplayMode: .always))
+//                .frame(height: 250)
 
                 // Title
                 Text(item.title)
@@ -41,7 +43,7 @@ struct ItemDetailsView: View {
                     Text("Looking for:")
                         .font(.headline)
 
-                    Text(item.lookingFor)
+//                    Text($item.lookingFor)
                 }
 
                 // Estimated price
@@ -77,11 +79,10 @@ struct ItemDetailsView: View {
 
 #Preview {
     ItemDetailsView(
-        item: Item(
-            title: "Bicycle",
-            imageNames: ["note", "bicycle", "moon"],
+        item: TradeItem(
+            images: [], title: "Bicycle",
             description:
                 "A sturdy mountain bike, perfect for trails and city commutes.",
             estimatedPrice: 300.0,
-            isPostedOnMarketplace: true, lookingFor: "everything"))
+            preferences: "everything", isPostedOnMarketplace: true))
 }

@@ -27,14 +27,10 @@ struct YourItemsView: View {
                 ],
                 alignment: .center
             ) {
-                ForEach(yourItems) { item in
+                ForEach(marketplaceItems.prefix(3)) { item in
                     ZStack(alignment: .topTrailing) {
                         VStack {
-                            Image(systemName: item.imageNames.first!)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 100)
-                                .padding(8)
+                            item.images.first
 
                             Text(item.title)
                                 .font(.headline)

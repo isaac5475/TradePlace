@@ -27,10 +27,10 @@ struct MarketplaceView: View {
                 alignment: .center
             ) {
                 //Every Item listed on the marketplace will be added to the grid with its first image containing the link to its details and its title
-                ForEach(marcetplaceItems) { item in
+                ForEach(marketplaceItems) { item in
                         VStack {
                             NavigationLink(destination:ItemDetailsView(item:item)){
-                                Image(systemName: item.imageNames.first!)
+                                Image(item.images.first!)
                                     .resizable()
                                     .scaledToFit()
                                     .frame(height: 100)
