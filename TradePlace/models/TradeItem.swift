@@ -1,0 +1,42 @@
+//
+//  TradeItem.swift
+//  TradePlace
+//
+//  Created by Murat Zaydullin on 29/4/2025.
+//
+
+import Foundation
+import SwiftUICore
+
+struct TradeItem : Identifiable {
+    let id = UUID();
+    let images : [Image];
+    let title: String;
+    let description: String;
+    let estimatedPrice: Double;
+    let preferences: String;
+    var isPostedOnMarketplace: Bool;
+    //let belongsTo: User;
+}
+
+let marketplaceItems = [
+    TradeItem(
+        images: [], title: "Bicycle", description: "hi",
+        estimatedPrice: 40.0, preferences: "everything", isPostedOnMarketplace: true),
+    TradeItem(
+        images: [], title: "Guitar", description: "hi",
+        estimatedPrice: 40.0, preferences: "everything", isPostedOnMarketplace: true),
+    TradeItem(
+        images: [], title: "Camera", description: "hi",
+        estimatedPrice: 40.0, preferences: "everything", isPostedOnMarketplace: true),
+    TradeItem(
+        images: [], title: "Guitar2", description: "hi",
+        estimatedPrice: 40.0, preferences: "everything", isPostedOnMarketplace: true),
+    TradeItem(
+        images: [], title: "PC", description: "hi",
+        estimatedPrice: 40.0, preferences: "everything", isPostedOnMarketplace: false),
+    TradeItem(
+        images: [], title: "Shoes", description: "hi",
+        estimatedPrice: 40.0, preferences: "everything", isPostedOnMarketplace: true
+    )
+]
