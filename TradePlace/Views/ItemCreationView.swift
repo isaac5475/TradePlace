@@ -21,7 +21,7 @@ struct ItemCreationView: View {
     @State private var selectedImages = [Image]()
     @Environment(\.dismiss) private var dismiss
     
-    let user = AppUser(email: "test@test.com", displayName: "TEST USER")
+    let user = user1;
     
     @StateObject private var viewModel = ItemCreationViewModel();
 

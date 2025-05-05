@@ -9,6 +9,9 @@
 import SwiftUI
 
 struct YourItemsView: View {
+    
+    @StateObject private var viewModel = YourItemsViewModel(user: user1)
+    
     var body: some View {
         ScrollView {
             
@@ -27,7 +30,7 @@ struct YourItemsView: View {
                 ],
                 alignment: .center
             ) {
-                ForEach(marketplaceItems.prefix(3)) { item in
+                ForEach(viewModel.items) { item in
                     ZStack(alignment: .topTrailing) {
                         VStack {
                             if let img = item.images.first {

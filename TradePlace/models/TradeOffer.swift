@@ -36,7 +36,6 @@ let item3 = marketplaceItems[2];
 
 let user1 = AppUser(email: "user1@test.com", displayName: "bob")
 let user2 = AppUser(email: "user2@test.com", displayName: "alice")
-
 let sampleOffers = [
     TradeOffer(forItem: item1, offeredItems: [item2], fromUser: user1, toUser: user2, status: .CREATED, createdAt: Date(), updatedAt: Date()),
     TradeOffer(forItem: item2, offeredItems: [item1], fromUser: user2, toUser: user1, status: .CANCELLED, createdAt: Date(), updatedAt: Date())
