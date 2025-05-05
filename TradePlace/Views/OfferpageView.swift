@@ -9,11 +9,42 @@
 import SwiftUI
 
 struct OfferpageView: View {
-    var body: some View {
-        Text("OfferpageView")
-    }
-}
+    @State private var selectedItems: Set<UUID> = []
+    var userItems: [TradeItem] = userOwnedItems // Assuming this exists globally or passed in
 
-#Preview {
-    OfferpageView()
+    var body: some View {
+        VStack {
+            Text("Select Items to Offer")
+                .font(.largeTitle)
+                .bold()
+                .padding()
+
+            List(userItems, id: \.id, selection: $selectedItems) { item in
+                HStack {
+                    if let img = item.images.first {
+                        img
+                            .resizable()
+                            .frame(width: 50, height: 50)
+                            .cornerRadius(8)
+                    }
+                    Text(item.title)
+                }
+            }
+            .environment(\.editMode, .constant(.active)) // Enable multi-select
+
+            Button(action: {
+                // Logic to submit offer
+                // For example: create a TradeOffer and save it
+            }) {
+                Text("Submit Offer")
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(selectedItems.isEmpty ? Color.gray : Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(12)
+            }
+            .padding()
+            .disabled(selectedItems.isEmpty)
+        }
+    }
 }
