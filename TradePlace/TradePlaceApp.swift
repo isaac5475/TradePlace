@@ -28,13 +28,17 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct YourApp: App {
   // register app delegate for Firebase setup
   @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-
+    @StateObject var coordinator = NavigationCoordinator();
   var body: some Scene {
     WindowGroup {
         NavigationView {
             NavigationStack {
                 AuthView()
+                    .navigationDestination(isPresented: $coordinator.goToItems) {
+                        YourItemsView()
+                    }
             }
+            .environmentObject(coordinator)
         }
     }
   }
