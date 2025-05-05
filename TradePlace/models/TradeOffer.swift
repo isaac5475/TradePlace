@@ -25,6 +25,7 @@ enum TradeOfferStatus {
 
 struct AppUser {
     let id = UUID();
+    let uid = UUID();
     let email: String?;
     let displayName: String?
 }
