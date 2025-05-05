@@ -9,6 +9,7 @@ import Foundation
 
 import Firebase
 import FirebaseFirestore
+import FirebaseAuth
 
 @MainActor
 class YourItemsViewModel : ObservableObject {
@@ -16,21 +17,18 @@ class YourItemsViewModel : ObservableObject {
     @Published var items : [TradeItem] = []
     @Published var isError = false;
     
-    private var user : AppUser;
-    
-    init(user usr : AppUser) {
-        self.user = usr;
-        
+    let user = Auth.auth().currentUser!;
+
+    init() {
         Task {
             await fetchItems();
         }
     }
     
-    private func fetchItems() async {
+    func fetchItems() async {
         let db = Firestore.firestore()
         do {
-            let itemsForUser = try await db.collection("TradeItem").document(user.uid.uuidString).collection("TradeItems").getDocuments()
-            print("fetched:", itemsForUser.documents.count)
+            let itemsForUser = try await db.collection("Users").document(user.uid).collection("TradeItems").getDocuments()
             var items : [TradeItem] = []
             for document in itemsForUser.documents {
                 let data = document.data()

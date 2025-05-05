@@ -20,9 +20,7 @@ struct ItemCreationView: View {
     @State private var selectedItems = [PhotosPickerItem]()
     @State private var selectedImages = [Image]()
     @Environment(\.dismiss) private var dismiss
-    
-    let user = user1;
-    
+        
     @StateObject private var viewModel = ItemCreationViewModel();
 
     var body: some View {
@@ -130,14 +128,14 @@ struct ItemCreationView: View {
                         viewModel.isSubmitting = true;
                         Task {
                             do {
-                                try await viewModel.handleSubmit(toSubmit: newItem, ownedBy: user)
-                                //  TODO notify about successful submit
+                                try await viewModel.handleSubmit(toSubmit: newItem)
                             } catch {
                                 viewModel.couldntSubmit = true
                                 // TODO notify about error
                             }
                         }
                         viewModel.isSubmitting = false;
+                        viewModel.shouldNavigateToYourItems = true
                     } label: {
                         Text("Save Item")
                             .font(.title3)
@@ -167,8 +165,10 @@ struct ItemCreationView: View {
 
             }
         }
+        .navigationDestination(isPresented: $viewModel.shouldNavigateToYourItems) {
+            YourItemsView(uuid: UUID())
+        }
     }
-
 }
 
 #Preview {

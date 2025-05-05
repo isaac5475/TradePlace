@@ -10,8 +10,9 @@ import SwiftUI
 
 struct YourItemsView: View {
     
-    @StateObject private var viewModel = YourItemsViewModel(user: user1)
+    @StateObject private var viewModel = YourItemsViewModel()
     
+    @State var uuid = UUID();   //  update this to trigger reload
     var body: some View {
         ScrollView {
             
@@ -80,8 +81,13 @@ struct YourItemsView: View {
                     .background(Color.gray.opacity(0.1))
                     .cornerRadius(10)
                 }
-            }.padding(3)
+            }
+            .padding(3)
         }
+        .refreshable {
+            await viewModel.fetchItems();
+        }
+
     }
 }
 

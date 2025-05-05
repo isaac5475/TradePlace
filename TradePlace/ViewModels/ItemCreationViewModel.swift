@@ -9,16 +9,20 @@ import Foundation
 
 import Firebase
 import FirebaseFirestore
+import FirebaseAuth
 
 class ItemCreationViewModel : ObservableObject {
     
     @Published var isSubmitting = false;
     @Published var couldntSubmit : Bool? = nil;
+    @Published var shouldNavigateToYourItems = false;
     
-    func handleSubmit(toSubmit item : TradeItem, ownedBy user : AppUser) async throws {
+    let user = Auth.auth().currentUser!;
+    
+    func handleSubmit(toSubmit item : TradeItem) async throws {
         
         let db = Firestore.firestore()
-        let tradeItemsForUser = db.collection("TradeItem").document(user.uid.uuidString).collection("TradeItems");
+        let tradeItemsForUser = db.collection("Users").document(user.uid).collection("TradeItems");
         try await tradeItemsForUser.addDocument(data: [
             "title": item.title,
             "description": item.description,
