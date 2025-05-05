@@ -34,21 +34,22 @@ struct YourItemsView: View {
                 ForEach(viewModel.items) { item in
                     ZStack(alignment: .topTrailing) {
                         VStack {
-                            if let img = item.images.first {
-                                img
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(height: 100)
-                                    .padding(8)
-
-                            } else {
-                                Image("no-image")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(height: 100)
-                                    .padding(8)
-                            }
-
+                            
+                                if let img = item.images.first {
+                                    img
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(height: 100)
+                                        .padding(8)
+                                    
+                                } else {
+                                    Image("no-image")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(height: 100)
+                                        .padding(8)
+                                }
+                            
                             Text(item.title)
                                 .font(.headline)
                                 .lineLimit(1)
@@ -57,7 +58,7 @@ struct YourItemsView: View {
                         .cornerRadius(15)
                         .shadow(radius: 2)
 
-                        // all items that are posted on marketplace are signed by a green badge
+                        // All items that are posted on marketplace are signed by a green badge
                         if item.isPostedOnMarketplace {
                             Text("Posted")
                                 .font(.system(size: 11))

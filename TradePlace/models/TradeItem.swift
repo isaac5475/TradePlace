@@ -9,7 +9,7 @@ import Foundation
 import SwiftUICore
 
 struct TradeItem : Identifiable {
-    let id = UUID();
+    let id : UUID
     let images : [Image];
     let title: String;
     let description: String;
@@ -17,6 +17,24 @@ struct TradeItem : Identifiable {
     let preferences: String;
     var isPostedOnMarketplace: Bool;
     //let belongsTo: User;
+    
+    init(
+        id: UUID = UUID(),
+        images: [Image],
+        title: String,
+        description: String,
+        estimatedPrice: Double,
+        preferences: String,
+        isPostedOnMarketplace: Bool
+    ) {
+        self.id = id
+        self.images = images
+        self.title = title
+        self.description = description
+        self.estimatedPrice = estimatedPrice
+        self.preferences = preferences
+        self.isPostedOnMarketplace = isPostedOnMarketplace
+    }
 }
 
 let marketplaceItems = [
