@@ -29,22 +29,8 @@ struct MarketplaceView: View {
                 ForEach(marketplaceItems) { item in
                         VStack {
                             NavigationLink(destination:ItemDetailsView(item:item)){
-                                if let img = item.images.first {
-                                    img
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(height: 100)
-                                        .padding(8)
-
-                                } else {
-                                    Image("no-image")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(height: 100)
-                                        .padding(8)
-
-                                }
-                                                            }
+                                
+                            }
                             .foregroundStyle(.black)
                             Text(item.title)
                                 .font(.headline)

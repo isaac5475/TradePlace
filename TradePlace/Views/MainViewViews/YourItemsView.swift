@@ -30,7 +30,20 @@ struct YourItemsView: View {
                 ForEach(marketplaceItems.prefix(3)) { item in
                     ZStack(alignment: .topTrailing) {
                         VStack {
-                            item.images.first
+                            if let img = item.images.first {
+                                img
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 100)
+                                    .padding(8)
+
+                            } else {
+                                Image("no-image")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 100)
+                                    .padding(8)
+                            }
 
                             Text(item.title)
                                 .font(.headline)
