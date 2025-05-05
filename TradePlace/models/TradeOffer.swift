@@ -23,19 +23,6 @@ enum TradeOfferStatus {
     case CREATED, CANCELLED, ACCEPTED;
 }
 
-struct AppUser {
-    let id = UUID();
-    let uid : UUID;
-    let email: String?;
-    let displayName: String?
-    
-    init(uid: UUID = UUID(), email: String?, displayName: String?) {
-        self.uid = uid
-        self.email = email
-        self.displayName = displayName
-    }
-}
-
 let item1 = marketplaceItems.first!
 let item2 = marketplaceItems[1];
 let item3 = marketplaceItems[2];
@@ -46,3 +33,5 @@ let sampleOffers = [
     TradeOffer(forItem: item1, offeredItems: [item2], fromUser: user1, toUser: user2, status: .CREATED, createdAt: Date(), updatedAt: Date()),
     TradeOffer(forItem: item2, offeredItems: [item1], fromUser: user2, toUser: user1, status: .CANCELLED, createdAt: Date(), updatedAt: Date())
 ]
+
+

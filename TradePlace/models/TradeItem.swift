@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUICore
+import FirebaseFirestore
 
 struct TradeItem : Identifiable {
     let id = UUID();
@@ -28,6 +29,32 @@ struct TradeItem : Identifiable {
         self.preferences = preferences
         self.isPostedOnMarketplace = isPostedOnMarketplace
     }
+    
+    static func getTradeItemFromRef(itemRef ref : DocumentReference) -> TradeItem? {
+        var result : TradeItem?;
+        ref.getDocument() { itemSnapshot, err in
+            if let itemData = itemSnapshot?.data() {
+                guard let title = itemData["title"] as? String else {
+                    return;
+                }
+                guard let description = itemData["description"] as? String else {
+                    return;
+                }
+                guard let preferences = itemData["preferences"] as? String else {
+                    return;
+                }
+                guard let isPostedOnMarketplace = itemData["isPostedOnMarketplace"] as? Bool else {
+                    return;
+                }
+                guard let estimatedPrice = itemData["estimatedPrice"] as? Double else {
+                    return;
+                }
+                result = TradeItem(uid: UUID(uuidString: ref.documentID)!, images: [], title: title, description: description, estimatedPrice: estimatedPrice, preferences: preferences, isPostedOnMarketplace: isPostedOnMarketplace)
+            }
+        }
+        return result;
+    }
+
 }
 
 let marketplaceItems = [
