@@ -7,14 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C54012FC2DC8A3A20000FC8C /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = C5ABC4572DC85F8400212E7B /* FirebaseFirestore */; };
 		C54436322DC890E400A97F0A /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = C54436312DC890E400A97F0A /* GoogleSignIn */; };
 		C54436342DC890E400A97F0A /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C54436332DC890E400A97F0A /* GoogleSignInSwift */; };
 		C54436362DC891A200A97F0A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C54436352DC891A200A97F0A /* GoogleService-Info.plist */; };
 		C5ABC3FD2DC84C8200212E7B /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = C5ABC3FC2DC84C8200212E7B /* FirebaseAnalyticsWithoutAdIdSupport */; };
 		C5ABC3FF2DC84C8200212E7B /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = C5ABC3FE2DC84C8200212E7B /* FirebaseAppCheck */; };
 		C5ABC4022DC84C9000212E7B /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = C5ABC4012DC84C9000212E7B /* FirebaseAuth */; };
-		C5ABC4042DC8519E00212E7B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C5ABC4032DC8519E00212E7B /* GoogleService-Info.plist */; };
-		C5ABC4582DC85F8400212E7B /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = C5ABC4572DC85F8400212E7B /* FirebaseFirestore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C54012FC2DC8A3A20000FC8C /* FirebaseFirestore in Frameworks */,
 				C54436342DC890E400A97F0A /* GoogleSignInSwift in Frameworks */,
 				C5ABC3FF2DC84C8200212E7B /* FirebaseAppCheck in Frameworks */,
 				C54436322DC890E400A97F0A /* GoogleSignIn in Frameworks */,

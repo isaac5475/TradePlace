@@ -25,9 +25,15 @@ enum TradeOfferStatus {
 
 struct AppUser {
     let id = UUID();
-    let uid = UUID();
+    let uid : UUID;
     let email: String?;
     let displayName: String?
+    
+    init(uid: UUID = UUID(), email: String?, displayName: String?) {
+        self.uid = uid
+        self.email = email
+        self.displayName = displayName
+    }
 }
 
 let item1 = marketplaceItems.first!
