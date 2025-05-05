@@ -7,6 +7,7 @@
 
 import Foundation
 import FirebaseAuth
+import FirebaseFirestore
 
 struct TradeOffer : Identifiable {
     let id = UUID();
@@ -17,9 +18,33 @@ struct TradeOffer : Identifiable {
     var status: TradeOfferStatus;
     let createdAt: Date;
     var updatedAt: Date;
+    
+    static func saveTradeOffer(tradeOffer o : TradeOffer) async throws {
+        let db = Firestore.firestore()
+        let tradeOffersRef = db.collection("Users").document(o.toUser.uid.uuidString).collection("TradeOffers");
+        let fromUserRef = db.collection("Users").document(o.fromUser.uid.uuidString);
+        let forItemRef = db.collection("Users").document(o.toUser.uid.uuidString).collection("TradeItems").document(o.forItem.id.uuidString);
+        
+        var offeredItemsRefs : [DocumentReference] = []
+        let offeredItemPrefix = db.collection("Users").document(o.fromUser.uid.uuidString).collection("TradeItems")
+        
+        for offeredItem in o.offeredItems {
+            offeredItemsRefs.append(offeredItemPrefix.document(offeredItem.uid.uuidString))
+        }
+
+        try await tradeOffersRef.addDocument(data: [
+            "fromUser": fromUserRef,
+            "forItem": forItemRef,
+            "status": o.status.rawValue,
+            "offeredItems": offeredItemsRefs,
+            "createdAt": Timestamp(date: o.createdAt),
+            "updatedAt": Timestamp(date: o.updatedAt)
+        ])
+    }
+    
 }
 
-enum TradeOfferStatus {
+enum TradeOfferStatus : String {
     case CREATED, CANCELLED, ACCEPTED;
 }
 
