@@ -9,14 +9,14 @@
 import SwiftUI
 
 struct ItemDetailsView: View {
-    @State var item: TradeItem
+    var item: TradeItem
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 15) {
 
                 // Images
-                //  TODO: change to process images
+                //  TODO: change to process images, show empty image if the array is empty
                 
 //                TabView {
 //                    ForEach(item.imageNames, id: \.self) { imageName in
@@ -43,7 +43,7 @@ struct ItemDetailsView: View {
                     Text("Looking for:")
                         .font(.headline)
 
-//                    Text($item.lookingFor)
+                    Text(item.preferences)
                 }
 
                 // Estimated price
@@ -60,7 +60,7 @@ struct ItemDetailsView: View {
         }
         .padding([.horizontal, .top])
         
-        // Trade Button
+//         Trade Button
         NavigationLink(destination: OfferpageView()) {
             Text("Trade")
                 .font(.title)

@@ -9,20 +9,10 @@
 
 import SwiftUI
 
-// Sample offers
-struct Offer: Identifiable {
-    let id = UUID()
-    let forItem: String
-    var offeredItems: String
-    let fromUser: String
-    let toUser: String
-}
-let sampleOffers = [
-    Offer(forItem: "Auto1", offeredItems: "PC", fromUser: "Bob1", toUser: "You"),
-    Offer(forItem: "Auto2", offeredItems: "PC", fromUser: "Bob2", toUser: "You")
-]
+
 
 struct YourOffersView: View {
+    @State private var yourOffers = [sampleOffers[0]]
     var body: some View {
 
         // Creating a tap for each offer so that the user can swipe horizontaly to view the offers
@@ -38,7 +28,7 @@ struct YourOffersView: View {
 
 // View of the offer itself
 struct OfferPageView: View {
-    let offer: Offer
+    let offer: TradeOffer
     
     var body: some View {
        
@@ -52,21 +42,22 @@ struct OfferPageView: View {
         
             Spacer()
             
-            Text("\(offer.fromUser) suggests:")
+            Text("\(offer.fromUser.displayName!) suggests:")
                 .font(.title)
                 .bold()
             
-            Text(offer.offeredItems)
-                .font(.title3)
-                .padding()
-            
+            List(offer.offeredItems) { offeredItem in
+                Text(offeredItem.title)
+                    .font(.title3)
+                    .padding()
+            }
             Spacer()
             
             Text("For your item:")
                 .font(.title)
                 .bold()
 
-            Text(offer.forItem)
+            Text(offer.forItem.title)
                 .font(.title3)
                 .padding()
 

@@ -11,7 +11,6 @@ import SwiftUI
 struct MarketplaceView: View {
     var body: some View {
         ScrollView {
-            
             // Heading
             Text("Marketplace")
                 .font(.largeTitle)
@@ -30,12 +29,22 @@ struct MarketplaceView: View {
                 ForEach(marketplaceItems) { item in
                         VStack {
                             NavigationLink(destination:ItemDetailsView(item:item)){
-                                Image(item.images.first!)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(height: 100)
-                                    .padding(8)
-                            }
+                                if let img = item.images.first {
+                                    img
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(height: 100)
+                                        .padding(8)
+
+                                } else {
+                                    Image("no-image")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(height: 100)
+                                        .padding(8)
+
+                                }
+                                                            }
                             .foregroundStyle(.black)
                             Text(item.title)
                                 .font(.headline)
