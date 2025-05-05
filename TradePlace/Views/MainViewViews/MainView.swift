@@ -11,7 +11,6 @@ import SwiftUI
 
 struct MainView: View {
     var body: some View {
-        NavigationStack {
             TabView {
                 MarketplaceView()
                     .tabItem {
@@ -39,7 +38,6 @@ struct MainView: View {
                     }
             }
         }
-    }
 }
 
 #Preview {

@@ -13,7 +13,7 @@ import GoogleSignIn
 @MainActor
 class AuthViewModel: ObservableObject {
     @Published var user: User?
-
+    @Published var isAuthenticated = false;
     init() {
         self.user = Auth.auth().currentUser
     }
@@ -27,7 +27,6 @@ class AuthViewModel: ObservableObject {
         let config = GIDConfiguration(clientID: clientID)
         GIDSignIn.sharedInstance.configuration = config
 
-        guard let rootVC = UIApplication.shared
         guard let rootVC = UIApplication.shared
             .connectedScenes
             .compactMap({ ($0 as? UIWindowScene)?.keyWindow?.rootViewController })
@@ -50,6 +49,7 @@ class AuthViewModel: ObservableObject {
 
             let authResult = try await Auth.auth().signIn(with: credential)
             self.user = authResult.user
+            isAuthenticated = true
             print("Signed in as: \(authResult.user.email ?? "Unknown")")
 
         } catch {

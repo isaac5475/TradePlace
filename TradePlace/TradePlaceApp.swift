@@ -31,9 +31,11 @@ struct YourApp: App {
 
   var body: some Scene {
     WindowGroup {
-      NavigationView {
-          MainView()
-      }
+        NavigationView {
+            NavigationStack {
+                AuthView()
+            }
+        }
     }
   }
 }

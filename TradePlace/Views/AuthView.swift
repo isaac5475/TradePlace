@@ -5,64 +5,53 @@
 //  Created by Murat Zaydullin on 5/5/2025.
 //
 
-import Foundation
-import Firebase
-import FirebaseAuth
+import SwiftUI
+import UIKit
 import GoogleSignIn
 
-@MainActor
-class AuthViewModel: ObservableObject {
-    @Published var user: User?
-
-    init() {
-        self.user = Auth.auth().currentUser
-    }
-
-    func signInWithGoogle() async {
-        guard let clientID = FirebaseApp.app()?.options.clientID else {
-            print("Missing client ID")
-            return
-        }
-
-        let config = GIDConfiguration(clientID: clientID)
-        GIDSignIn.sharedInstance.configuration = config
-
-        guard let rootVC = UIApplication.shared
-        guard let rootVC = UIApplication.shared
-            .connectedScenes
-            .compactMap({ ($0 as? UIWindowScene)?.keyWindow?.rootViewController })
-            .first else {
-                print("Missing root view controller")
-                return
-        }
-
-        do {
-            let result = try await GIDSignIn.sharedInstance.signIn(withPresenting: rootVC)
-            guard let idToken = result.user.idToken?.tokenString else {
-                print("Missing ID token")
-                return
+struct AuthView: View {
+    
+    @StateObject private var viewModel = AuthViewModel();
+    
+    var body: some View {
+        VStack {
+            ContinueWithGoogleButton {
+                Task {
+                    await viewModel.signInWithGoogle();
+                }
             }
-
-            let credential = GoogleAuthProvider.credential(
-                withIDToken: idToken,
-                accessToken: result.user.accessToken.tokenString
-            )
-
-            let authResult = try await Auth.auth().signIn(with: credential)
-            self.user = authResult.user
-            print("Signed in as: \(authResult.user.email ?? "Unknown")")
-
-        } catch {
-            print("Sign-in error: \(error.localizedDescription)")
+        }
+        .navigationDestination(isPresented: $viewModel.isAuthenticated) {
+            MainView()
         }
     }
+}
 
-    func signOut() {
-        do {
-            try Auth.auth().signOut()
-            self.user = nil
-        } catch {
-            print("Sign-out failed: \(error.localizedDescription)")
+import SwiftUI
+
+struct ContinueWithGoogleButton: View {
+    var action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack {
+                Image("google-logo1")
+                    .resizable()
+                    .frame(width: 20, height: 20)
+                    .padding(.trailing, 10)
+
+                Text("Continue with Google")
+                    .foregroundColor(.white)
+                    .font(.system(size: 16, weight: .medium))
+            }
+            .padding()
+            .frame(maxWidth: .infinity)
+            .background(Color.blue)
+            .cornerRadius(8)
         }
+        .padding(.horizontal)
     }
+}
+#Preview {
+    AuthView()
 }
