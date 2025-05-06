@@ -31,4 +31,9 @@ class ItemChangeViewModel : ObservableObject {
             "preferences": item.preferences,
         ])
     }
+    func deleteHandler(_ item : TradeItem) async throws {
+        let db = Firestore.firestore()
+        let docRef = db.collection("Users").document(user.uid).collection("TradeItems").document(item.id.uuidString);
+        try await docRef.delete()
+    }
 }

@@ -10,11 +10,11 @@ import SwiftUICore
 
 struct TradeItem : Identifiable {
     let id : UUID
-    let images : [Image];
-    let title: String;
-    let description: String;
-    let estimatedPrice: Double;
-    let preferences: String;
+    var images : [Image];
+    var title: String;
+    var description: String;
+    var estimatedPrice: Double;
+    var preferences: String;
     var isPostedOnMarketplace: Bool;
     //let belongsTo: User;
     

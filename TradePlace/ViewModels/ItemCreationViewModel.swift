@@ -22,7 +22,7 @@ class ItemCreationViewModel : ObservableObject {
     func handleSubmit(toSubmit item : TradeItem) async throws {
         let db = Firestore.firestore()
         let tradeItemsForUser = db.collection("Users").document(user.uid).collection("TradeItems");
-        try await tradeItemsForUser.addDocument(data: [
+        try await tradeItemsForUser.document(item.id.uuidString).setData([
             "title": item.title,
             "description": item.description,
             "estimatedPrice": item.estimatedPrice,

@@ -14,26 +14,14 @@ struct ItemChangeView: View {
     @State var item: TradeItem
     var onSave: (TradeItem) -> Void
 
-    @State private var title: String
-    @State private var description: String
-    @State private var estimatedPrice: String
-    @State private var preferences: String
-    @State private var isPosted: Bool
-    @State private var id: UUID
-
     @State private var selectedItems = [PhotosPickerItem]()
     @State private var selectedImages = [Image]()
+    @State private var estimatedPriceInput = "";
     @Environment(\.dismiss) private var dismiss
 
     init(item: TradeItem, onSave: @escaping (TradeItem) -> Void) {
         self.item = item
         self.onSave = onSave
-        _id = State(initialValue: item.id)
-        _title = State(initialValue: item.title)
-        _description = State(initialValue: item.description)
-        _estimatedPrice = State(initialValue: "\(item.estimatedPrice)")
-        _preferences = State(initialValue: item.preferences)
-        _isPosted = State(initialValue: item.isPostedOnMarketplace)
         _selectedImages = State(initialValue: item.images)
     }
 
@@ -84,11 +72,11 @@ struct ItemChangeView: View {
 
                 //Title
                 Text("Title")
-                TextField("Enter a Title", text: $title)
+                TextField("Enter a Title", text: $item.title)
                     .padding(.bottom, 20)
 
                 Text("Description")
-                TextEditor(text: $description)
+                TextEditor(text: $item.description)
                     .frame(minHeight: 80, maxHeight: 120)
                     .overlay(
                         RoundedRectangle(cornerRadius: 8)
@@ -103,7 +91,7 @@ struct ItemChangeView: View {
                     Spacer()
                     Text("$")
                         .font(.title3)
-                    TextField("0", text: $estimatedPrice)
+                    TextField("0", text: $estimatedPriceInput)
                         .keyboardType(.decimalPad)
                         .frame(width: 100)
                 }
@@ -111,11 +99,11 @@ struct ItemChangeView: View {
 
                 // Items user is looking for
                 Text("Looking for")
-                TextField("Enter items you are looking for", text: $preferences)
+                TextField("Enter items you are looking for", text: $item.preferences)
                     .padding(.bottom, 20)
 
                 // Select if item should be posted to marketplace
-                Toggle("Post to Marketplace", isOn: $isPosted)
+                Toggle("Post to Marketplace", isOn: $item.isPostedOnMarketplace)
                     .padding(.bottom, 20)
                     .padding(.trailing)
 
@@ -134,20 +122,12 @@ struct ItemChangeView: View {
                         if viewModel.isSubmitting {
                             return
                         }
-                        let newItem = TradeItem(
-                            //       images: selectedImages,
-                            images: [],
-                            title: title,
-                            description: description,
-                            estimatedPrice: Double(estimatedPrice) ?? 0.0,
-                            preferences: preferences,
-                            isPostedOnMarketplace: isPosted
-                        )
                         viewModel.isSubmitting = true
                         Task {
+                            item.estimatedPrice = Double(estimatedPriceInput) ?? 0.0
                             do {
                                 try await viewModel.handleSubmit(
-                                    toSubmit: newItem)
+                                    toSubmit: item)
                                 coordinator.goToItems = true;
                             } catch {
                                 viewModel.couldntSubmit = true
@@ -163,11 +143,27 @@ struct ItemChangeView: View {
                     }
                     .buttonStyle(.borderedProminent)
                     .disabled(
-                        title.isEmpty || description.isEmpty
+                        item.title.isEmpty || item.description.isEmpty
                             || viewModel.isSubmitting)
                 }
                 .padding(.top)
             }
+            Button {
+                Task {
+                    do {
+                        try await viewModel.deleteHandler(item);
+                        coordinator.goToItems = true;
+                    } catch {
+                        viewModel.couldntSubmit = true;
+                    }
+                }
+            } label: {
+                Text("Delete Item")
+                    .font(.title3)
+                    .backgroundStyle(.red)
+                    .frame(maxWidth: .infinity)
+            }
+
         }
         .textFieldStyle(.roundedBorder)
         .padding()

@@ -46,7 +46,7 @@ class YourItemsViewModel : ObservableObject {
                 let preferences = data["preferences"] as? String ?? "";
                 let estimatedPrice = data["estimatedPrice"] as? Double ?? 0.0
                 let isPostedOnMarketplace = data["isPostedOnMarketplace"] as? Bool ?? false
-                let tradeItem = TradeItem(images: [], title: title, description: description, estimatedPrice: estimatedPrice, preferences: preferences, isPostedOnMarketplace: isPostedOnMarketplace)
+                let tradeItem = TradeItem(id: UUID(uuidString: document.documentID)!, images: [], title: title, description: description, estimatedPrice: estimatedPrice, preferences: preferences, isPostedOnMarketplace: isPostedOnMarketplace)
                 items.insert(tradeItem, at: 0)
             }
             self.items = items;
