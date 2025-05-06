@@ -85,7 +85,7 @@ class YourOffersViewModel : ObservableObject {
         guard let updatedAtTimestamp = data["updatedAt"] as? Timestamp else {
             return nil;
         }
-        return TradeOffer(forItem: forItem, offeredItems: offeredItems, fromUser: fromUser, toUser: getAppUserFromUser(user), status: status, createdAt: createdAtTimestamp.dateValue(), updatedAt: updatedAtTimestamp.dateValue())
+        return TradeOffer(id: UUID(uuidString: document.documentID)!,  forItem: forItem, offeredItems: offeredItems, fromUser: fromUser, toUser: getAppUserFromUser(user), status: status, createdAt: createdAtTimestamp.dateValue(), updatedAt: updatedAtTimestamp.dateValue())
     }
 }
     

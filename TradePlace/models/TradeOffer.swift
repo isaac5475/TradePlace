@@ -10,7 +10,7 @@ import FirebaseAuth
 import FirebaseFirestore
 
 struct TradeOffer : Identifiable {
-    let id = UUID();
+    let id : UUID;
     let forItem: TradeItem;
     var offeredItems: [TradeItem];
     let fromUser: AppUser;
@@ -18,6 +18,17 @@ struct TradeOffer : Identifiable {
     var status: TradeOfferStatus;
     let createdAt: Date;
     var updatedAt: Date;
+    
+    init(id: UUID = UUID(), forItem: TradeItem, offeredItems: [TradeItem], fromUser: AppUser, toUser: AppUser, status: TradeOfferStatus, createdAt: Date, updatedAt: Date) {
+        self.id = id
+        self.forItem = forItem
+        self.offeredItems = offeredItems
+        self.fromUser = fromUser
+        self.toUser = toUser
+        self.status = status
+        self.createdAt = createdAt
+        self.updatedAt = updatedAt
+    }
     
     static func saveTradeOffer(tradeOffer o : TradeOffer) async throws {
         let db = Firestore.firestore()
@@ -32,7 +43,7 @@ struct TradeOffer : Identifiable {
             offeredItemsRefs.append(offeredItemPrefix.document(offeredItem.uid.uuidString))
         }
 
-        try await tradeOffersRef.addDocument(data: [
+        try await tradeOffersRef.document(o.id.uuidString).setData([
             "fromUser": fromUserRef,
             "forItem": forItemRef,
             "status": o.status.rawValue,
