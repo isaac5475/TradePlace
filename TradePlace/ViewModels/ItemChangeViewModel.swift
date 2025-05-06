@@ -33,14 +33,12 @@ class ItemChangeViewModel : ObservableObject {
         ])
     }
     func deleteHandler(_ item : TradeItem) async throws {
+        // Delete images for item from Firebase Storage.
         let storage = Storage.storage()
         let storageRef = storage.reference()
         let itemFolderRef = storageRef.child("\(item.id.uuidString)");
-        
         let imagesToDelete = try await itemFolderRef.listAll()
-        
         for image in imagesToDelete.items {
-            print("deleting")
             do {
                 try await image.delete()
             }
