@@ -10,19 +10,19 @@ import PhotosUI
 import SwiftUI
 
 struct ItemCreationView: View {
-
+    
     @State private var title: String = ""
     @State private var description: String = ""
     @State private var estimatedPrice: String = ""
     @State private var lookingFor: String = ""
     @State private var isPosted: Bool = false
-
+    
     @State private var selectedItems = [PhotosPickerItem]()
     @State private var selectedImages = [Image]()
     @Environment(\.dismiss) private var dismiss
-        
+    
     @StateObject private var viewModel = ItemCreationViewModel();
-
+    @EnvironmentObject var coordinator : NavigationCoordinator;
     var body: some View {
         ScrollView {
             //Heading
@@ -30,9 +30,9 @@ struct ItemCreationView: View {
                 .font(.largeTitle)
                 .bold()
                 .padding(.bottom)
-
+            
             VStack(alignment: .leading) {
-
+                
                 //Images
                 //Preview of the selected Images
                 ScrollView(.horizontal) {
@@ -64,12 +64,12 @@ struct ItemCreationView: View {
                     }
                 )
                 .padding(.bottom, 20)
-
+                
                 //Title
                 Text("Title")
                 TextField("Enter a Title", text: $title)
                     .padding(.bottom, 20)
-
+                
                 Text("Description")
                 TextEditor(text: $description)
                     .frame(minHeight: 80, maxHeight: 120)
@@ -79,7 +79,7 @@ struct ItemCreationView: View {
                     )
                     .cornerRadius(8)
                     .padding(.bottom, 20)
-
+                
                 // Estimated Price of the item
                 HStack {
                     Text("Estimated Price")
@@ -91,17 +91,17 @@ struct ItemCreationView: View {
                         .frame(width: 100)
                 }
                 .padding(.bottom, 20)
-
+                
                 // Items user is looking for
                 Text("Looking for")
                 TextField("Enter items you are looking for", text: $lookingFor)
                     .padding(.bottom, 20)
-
+                
                 // Select if item should be posted to marketplace
                 Toggle("Post to Marketplace", isOn: $isPosted)
                     .padding(.bottom, 20)
                     .padding(.trailing)
-
+                
                 //Buttons to cancel and save the item, saving is only possible if images are selected and title, description are entered
                 HStack {
                     Button {
@@ -112,11 +112,9 @@ struct ItemCreationView: View {
                             .frame(maxWidth: .infinity)
                     }
                     .buttonStyle(.bordered)
-
+                    
                     Button {
-                        if (viewModel.isSubmitting) {
-                            return;
-                        }
+                        guard !viewModel.isSubmitting else { return }
                         let newItem = TradeItem(
                             images: selectedImages,
                             title: title,
@@ -129,13 +127,13 @@ struct ItemCreationView: View {
                         Task {
                             do {
                                 try await viewModel.handleSubmit(toSubmit: newItem)
+                                coordinator.goToItems = true;
                             } catch {
                                 viewModel.couldntSubmit = true
                                 // TODO notify about error
                             }
                         }
                         viewModel.isSubmitting = false;
-                        viewModel.shouldNavigateToYourItems = true
                     } label: {
                         Text("Save Item")
                             .font(.title3)
@@ -154,7 +152,7 @@ struct ItemCreationView: View {
         .onChange(of: selectedItems) {
             Task {
                 selectedImages.removeAll()
-
+                
                 for item in selectedItems {
                     if let image = try? await item.loadTransferable(
                         type: Image.self)
@@ -162,11 +160,8 @@ struct ItemCreationView: View {
                         selectedImages.append(image)
                     }
                 }
-
+                
             }
-        }
-        .navigationDestination(isPresented: $viewModel.shouldNavigateToYourItems) {
-            YourItemsView(uuid: UUID())
         }
     }
 }

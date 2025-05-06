@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8B07FA222DC8C7730048B640 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = C5ABC4572DC85F8400212E7B /* FirebaseFirestore */; };
+		C54012FC2DC8A3A20000FC8C /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = C5ABC4572DC85F8400212E7B /* FirebaseFirestore */; };
 		C54436322DC890E400A97F0A /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = C54436312DC890E400A97F0A /* GoogleSignIn */; };
 		C54436342DC890E400A97F0A /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C54436332DC890E400A97F0A /* GoogleSignInSwift */; };
 		C54436362DC891A200A97F0A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C54436352DC891A200A97F0A /* GoogleService-Info.plist */; platformFilter = ios; };
@@ -76,7 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8B07FA222DC8C7730048B640 /* FirebaseFirestore in Frameworks */,
+				C54012FC2DC8A3A20000FC8C /* FirebaseFirestore in Frameworks */,
 				C54436342DC890E400A97F0A /* GoogleSignInSwift in Frameworks */,
 				C5ABC3FF2DC84C8200212E7B /* FirebaseAppCheck in Frameworks */,
 				C54436322DC890E400A97F0A /* GoogleSignIn in Frameworks */,
