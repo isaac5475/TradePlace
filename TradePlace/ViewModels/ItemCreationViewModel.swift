@@ -23,8 +23,10 @@ class ItemCreationViewModel : ObservableObject {
     func handleSubmit(toSubmit item : TradeItem, images data: [Data]) async throws {
         let storage = Storage.storage()
         let storageRef = storage.reference()
-        let imageRef = storageRef.child("testing/test.jpg")
-        imageRef.putData(data.first!, metadata: nil)
+        for (index, image) in data.enumerated() {
+            let imageRef = storageRef.child("\(item.id.uuidString)/\(index).jpg")
+            imageRef.putData(image, metadata: nil)
+        }
         
         let db = Firestore.firestore()
         let tradeItemsForUser = db.collection("Users").document(user.uid).collection("TradeItems");
