@@ -9,6 +9,7 @@ import Foundation
 
 import Firebase
 import FirebaseFirestore
+import FirebaseStorage
 import FirebaseAuth
 
 class ItemCreationViewModel : ObservableObject {
@@ -19,7 +20,12 @@ class ItemCreationViewModel : ObservableObject {
     
     let user = Auth.auth().currentUser!;
     
-    func handleSubmit(toSubmit item : TradeItem) async throws {
+    func handleSubmit(toSubmit item : TradeItem, images data: [Data]) async throws {
+        let storage = Storage.storage()
+        let storageRef = storage.reference()
+        let imageRef = storageRef.child("testing/test.jpg")
+        imageRef.putData(data.first!, metadata: nil)
+        
         let db = Firestore.firestore()
         let tradeItemsForUser = db.collection("Users").document(user.uid).collection("TradeItems");
         try await tradeItemsForUser.document(item.id.uuidString).setData([

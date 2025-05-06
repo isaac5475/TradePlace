@@ -19,6 +19,7 @@ struct ItemCreationView: View {
     
     @State private var selectedItems = [PhotosPickerItem]()
     @State private var selectedImages = [Image]()
+    @State private var data = [Data]()
     @Environment(\.dismiss) private var dismiss
     
     @StateObject private var viewModel = ItemCreationViewModel();
@@ -126,7 +127,7 @@ struct ItemCreationView: View {
                         viewModel.isSubmitting = true;
                         Task {
                             do {
-                                try await viewModel.handleSubmit(toSubmit: newItem)
+                                try await viewModel.handleSubmit(toSubmit: newItem, images: data)
                                 coordinator.goToItems = true;
                             } catch {
                                 viewModel.couldntSubmit = true
@@ -159,6 +160,13 @@ struct ItemCreationView: View {
                     {
                         selectedImages.append(image)
                     }
+                    
+                    if let imageData = try? await item.loadTransferable(
+                        type: Data.self)
+                    {
+                        data.append(imageData)
+                    }
+                    
                 }
                 
             }
