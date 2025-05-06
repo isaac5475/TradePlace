@@ -22,8 +22,8 @@ class ItemChangeViewModel : ObservableObject {
     
     func handleSubmit(toSubmit item : TradeItem) async throws {
         let db = Firestore.firestore()
-        let tradeItemsForUser = db.collection("Users").document(user.uid).collection("TradeItems");
-        try await tradeItemsForUser.addDocument(data: [
+        let docRef = db.collection("Users").document(user.uid).collection("TradeItems").document(item.id.uuidString);
+        try await docRef.updateData([
             "title": item.title,
             "description": item.description,
             "estimatedPrice": item.estimatedPrice,

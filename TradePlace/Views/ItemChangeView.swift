@@ -38,6 +38,7 @@ struct ItemChangeView: View {
     }
 
     @StateObject private var viewModel = ItemChangeViewModel()
+    @EnvironmentObject var coordinator : NavigationCoordinator;
 
     var body: some View {
         ScrollView {
@@ -147,6 +148,7 @@ struct ItemChangeView: View {
                             do {
                                 try await viewModel.handleSubmit(
                                     toSubmit: newItem)
+                                coordinator.goToItems = true;
                             } catch {
                                 viewModel.couldntSubmit = true
                                 // TODO notify about error
@@ -184,11 +186,6 @@ struct ItemChangeView: View {
         
                     }
                 }
-        .navigationDestination(
-            isPresented: $viewModel.shouldNavigateToYourItems
-        ) {
-            YourItemsView(uuid: UUID())
-        }
     }
 }
 

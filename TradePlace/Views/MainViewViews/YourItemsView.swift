@@ -11,7 +11,8 @@ import SwiftUI
 struct YourItemsView: View {
     
     @StateObject private var viewModel = YourItemsViewModel()
-    
+    @EnvironmentObject var coordinator : NavigationCoordinator;
+
     @State var uuid = UUID();   //  update this to trigger reload
     var body: some View {
         ScrollView {
@@ -59,8 +60,8 @@ struct YourItemsView: View {
                         .cornerRadius(15)
                         .shadow(radius: 2)
                         .onTapGesture {
-                            viewModel.navigateToItemChangeView = true
-                            viewModel.item = item
+                            coordinator.goToItemChange = true
+                            coordinator.itemToEdit = item
                                     }
                         
 
@@ -94,17 +95,6 @@ struct YourItemsView: View {
         .refreshable {
             await viewModel.fetchItems();
         }
-        .navigationDestination(
-            isPresented: $viewModel.navigateToItemChangeView
-        ) {
-            ItemChangeView(item: viewModel.item, onSave: { updatedItem in
-                // Replace the old item with the edited one
-                if let index = marketplaceItems.firstIndex(where: { $0.id == updatedItem.id }) {
-                    marketplaceItems[index] = updatedItem
-                }
-            })
-        }
-
     }
 }
 
