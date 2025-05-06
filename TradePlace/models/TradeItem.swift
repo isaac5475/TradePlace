@@ -37,7 +37,7 @@ struct TradeItem : Identifiable {
     }
 }
 
-let marketplaceItems = [
+var marketplaceItems = [
     TradeItem(
         images: [], title: "Bicycle", description: "hi",
         estimatedPrice: 40.0, preferences: "everything", isPostedOnMarketplace: true),

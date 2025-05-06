@@ -201,6 +201,6 @@ struct ItemChangeView: View {
             preferences: "Anything",
             isPostedOnMarketplace: true
         ),
-        onSave: { _ in }  // No-op for preview purposes)
+        onSave: { _ in }
     )
 }

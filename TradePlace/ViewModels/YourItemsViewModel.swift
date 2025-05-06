@@ -16,6 +16,14 @@ class YourItemsViewModel : ObservableObject {
    
     @Published var items : [TradeItem] = []
     @Published var isError = false;
+    @Published var navigateToItemChangeView = false
+    @Published var item : TradeItem = TradeItem(id: UUID(),
+                                                images: [],
+                                                title: "Test Item",
+                                                description: "A description",
+                                                estimatedPrice: 99.99,
+                                                preferences: "Anything",
+                                                isPostedOnMarketplace: true)
     
     let user = Auth.auth().currentUser!;
 
@@ -29,7 +37,14 @@ class YourItemsViewModel : ObservableObject {
         let db = Firestore.firestore()
         do {
             let itemsForUser = try await db.collection("Users").document(user.uid).collection("TradeItems").getDocuments()
-            var items : [TradeItem] = []
+            var items : [TradeItem] = [TradeItem(
+                id: UUID(),
+                images: [],
+                title: "Test Item",
+                description: "A description",
+                estimatedPrice: 99.99,
+                preferences: "Anything",
+                isPostedOnMarketplace: true)]
             for document in itemsForUser.documents {
                 let data = document.data()
                 let title = data["title"] as? String ?? "";

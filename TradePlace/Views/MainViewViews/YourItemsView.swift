@@ -41,6 +41,7 @@ struct YourItemsView: View {
                                         .scaledToFit()
                                         .frame(height: 100)
                                         .padding(8)
+                                        
                                     
                                 } else {
                                     Image("no-image")
@@ -57,6 +58,11 @@ struct YourItemsView: View {
                         .background(Color.white)
                         .cornerRadius(15)
                         .shadow(radius: 2)
+                        .onTapGesture {
+                            viewModel.navigateToItemChangeView = true
+                            viewModel.item = item
+                                    }
+                        
 
                         // All items that are posted on marketplace are signed by a green badge
                         if item.isPostedOnMarketplace {
@@ -87,6 +93,16 @@ struct YourItemsView: View {
         }
         .refreshable {
             await viewModel.fetchItems();
+        }
+        .navigationDestination(
+            isPresented: $viewModel.navigateToItemChangeView
+        ) {
+            ItemChangeView(item: viewModel.item, onSave: { updatedItem in
+                // Replace the old item with the edited one
+                if let index = marketplaceItems.firstIndex(where: { $0.id == updatedItem.id }) {
+                    marketplaceItems[index] = updatedItem
+                }
+            })
         }
 
     }
