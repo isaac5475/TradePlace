@@ -37,6 +37,16 @@ struct YourApp: App {
                     .navigationDestination(isPresented: $coordinator.goToItems) {
                         YourItemsView()
                     }
+                    .navigationDestination(
+                        isPresented: $coordinator.goToItemChange
+                    ) {
+                        ItemChangeView(item: coordinator.itemToEdit, onSave: { updatedItem in
+                            // Replace the old item with the edited one
+                            if let index = marketplaceItems.firstIndex(where: { $0.id == updatedItem.id }) {
+                                marketplaceItems[index] = updatedItem
+                            }
+                        })
+                    }
             }
             .environmentObject(coordinator)
         }

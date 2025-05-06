@@ -1,9 +1,10 @@
 //
-//  ItemCreationViewModel.swift
+//  ItemChangeViewModel.swift
 //  TradePlace
 //
-//  Created by Murat Zaydullin on 5/5/2025.
+//  Created by Jan Huecking on 6/5/2025.
 //
+
 
 import Foundation
 
@@ -11,7 +12,7 @@ import Firebase
 import FirebaseFirestore
 import FirebaseAuth
 
-class ItemCreationViewModel : ObservableObject {
+class ItemChangeViewModel : ObservableObject {
     
     @Published var isSubmitting = false;
     @Published var couldntSubmit : Bool? = nil;
@@ -21,13 +22,18 @@ class ItemCreationViewModel : ObservableObject {
     
     func handleSubmit(toSubmit item : TradeItem) async throws {
         let db = Firestore.firestore()
-        let tradeItemsForUser = db.collection("Users").document(user.uid).collection("TradeItems");
-        try await tradeItemsForUser.document(item.id.uuidString).setData([
+        let docRef = db.collection("Users").document(user.uid).collection("TradeItems").document(item.id.uuidString);
+        try await docRef.updateData([
             "title": item.title,
             "description": item.description,
             "estimatedPrice": item.estimatedPrice,
             "isPostedOnMarketplace": item.isPostedOnMarketplace,
             "preferences": item.preferences,
         ])
+    }
+    func deleteHandler(_ item : TradeItem) async throws {
+        let db = Firestore.firestore()
+        let docRef = db.collection("Users").document(user.uid).collection("TradeItems").document(item.id.uuidString);
+        try await docRef.delete()
     }
 }
