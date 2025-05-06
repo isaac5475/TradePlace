@@ -20,6 +20,8 @@ struct ItemCreationView: View {
     @State private var selectedItems = [PhotosPickerItem]()
     @State private var selectedImages = [Image]()
     @Environment(\.dismiss) private var dismiss
+        
+    @StateObject private var viewModel = ItemCreationViewModel();
 
     var body: some View {
         ScrollView {
@@ -112,14 +114,28 @@ struct ItemCreationView: View {
                     .buttonStyle(.bordered)
 
                     Button {
+                        if (viewModel.isSubmitting) {
+                            return;
+                        }
                         let newItem = TradeItem(
                             images: selectedImages,
                             title: title,
                             description: description,
-                            estimatedPrice: Double(estimatedPrice)!,
+                            estimatedPrice: Double(estimatedPrice) ?? 0.0,
                             preferences: lookingFor,
                             isPostedOnMarketplace: isPosted
                         )
+                        viewModel.isSubmitting = true;
+                        Task {
+                            do {
+                                try await viewModel.handleSubmit(toSubmit: newItem)
+                            } catch {
+                                viewModel.couldntSubmit = true
+                                // TODO notify about error
+                            }
+                        }
+                        viewModel.isSubmitting = false;
+                        viewModel.shouldNavigateToYourItems = true
                     } label: {
                         Text("Save Item")
                             .font(.title3)
@@ -127,8 +143,7 @@ struct ItemCreationView: View {
                     }
                     .buttonStyle(.borderedProminent)
                     .disabled(
-                        title.isEmpty || description.isEmpty
-                            || selectedImages.isEmpty)
+                        title.isEmpty || description.isEmpty || viewModel.isSubmitting)
                 }
                 .padding(.top)
             }
@@ -150,8 +165,10 @@ struct ItemCreationView: View {
 
             }
         }
+        .navigationDestination(isPresented: $viewModel.shouldNavigateToYourItems) {
+            YourItemsView(uuid: UUID())
+        }
     }
-
 }
 
 #Preview {

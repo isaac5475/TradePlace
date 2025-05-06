@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8B07FA222DC8C7730048B640 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = C5ABC4572DC85F8400212E7B /* FirebaseFirestore */; };
 		C54436322DC890E400A97F0A /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = C54436312DC890E400A97F0A /* GoogleSignIn */; };
 		C54436342DC890E400A97F0A /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C54436332DC890E400A97F0A /* GoogleSignInSwift */; };
-		C54436362DC891A200A97F0A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C54436352DC891A200A97F0A /* GoogleService-Info.plist */; };
+		C54436362DC891A200A97F0A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C54436352DC891A200A97F0A /* GoogleService-Info.plist */; platformFilter = ios; };
 		C5ABC3FD2DC84C8200212E7B /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = C5ABC3FC2DC84C8200212E7B /* FirebaseAnalyticsWithoutAdIdSupport */; };
 		C5ABC3FF2DC84C8200212E7B /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = C5ABC3FE2DC84C8200212E7B /* FirebaseAppCheck */; };
 		C5ABC4022DC84C9000212E7B /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = C5ABC4012DC84C9000212E7B /* FirebaseAuth */; };
@@ -75,6 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B07FA222DC8C7730048B640 /* FirebaseFirestore in Frameworks */,
 				C54436342DC890E400A97F0A /* GoogleSignInSwift in Frameworks */,
 				C5ABC3FF2DC84C8200212E7B /* FirebaseAppCheck in Frameworks */,
 				C54436322DC890E400A97F0A /* GoogleSignIn in Frameworks */,
@@ -152,6 +154,7 @@
 				C5ABC3FC2DC84C8200212E7B /* FirebaseAnalyticsWithoutAdIdSupport */,
 				C5ABC3FE2DC84C8200212E7B /* FirebaseAppCheck */,
 				C5ABC4012DC84C9000212E7B /* FirebaseAuth */,
+				C5ABC4572DC85F8400212E7B /* FirebaseFirestore */,
 				C54436312DC890E400A97F0A /* GoogleSignIn */,
 				C54436332DC890E400A97F0A /* GoogleSignInSwift */,
 			);
@@ -456,7 +459,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = uts.TradePlace;
+				PRODUCT_BUNDLE_IDENTIFIER = com.uts.tradePlace;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -485,7 +488,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = uts.TradePlace;
+				PRODUCT_BUNDLE_IDENTIFIER = com.uts.tradePlace;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -646,6 +649,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C5ABC3FB2DC84C8200212E7B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
+		};
+		C5ABC4572DC85F8400212E7B /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C5ABC3FB2DC84C8200212E7B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
