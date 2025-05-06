@@ -7,6 +7,7 @@
 // Allows users to change their existing items or delete them.
 
 import SwiftUI
+import _PhotosUI_SwiftUI
 
 struct ItemChangeView: View {
 
@@ -20,8 +21,8 @@ struct ItemChangeView: View {
     @State private var isPosted: Bool
     @State private var id: UUID
 
-    // @State private var selectedItems = [PhotosPickerItem]()
-    // @State private var selectedImages = [Image]()
+    @State private var selectedItems = [PhotosPickerItem]()
+    @State private var selectedImages = [Image]()
     @Environment(\.dismiss) private var dismiss
 
     init(item: TradeItem, onSave: @escaping (TradeItem) -> Void) {
@@ -33,6 +34,7 @@ struct ItemChangeView: View {
         _estimatedPrice = State(initialValue: "\(item.estimatedPrice)")
         _preferences = State(initialValue: item.preferences)
         _isPosted = State(initialValue: item.isPostedOnMarketplace)
+        _selectedImages = State(initialValue: item.images)
     }
 
     @StateObject private var viewModel = ItemCreationViewModel()
@@ -47,37 +49,37 @@ struct ItemChangeView: View {
 
             VStack(alignment: .leading) {
 
-                //Images
-                //Preview of the selected Images
-                //                ScrollView(.horizontal) {
-                //                    LazyHStack {
-                //                        ForEach(0..<selectedImages.count, id: \.self) { i in
-                //                            selectedImages[i]
-                //                                .resizable()
-                //                                .scaledToFill()
-                //                                .frame(height: 250)
-                //                        }
-                //                    }
-                //                }
-                //                // Button to select Images
-                //                PhotosPicker(
-                //                    selection: $selectedItems,
-                //                    matching: .images,
-                //                    label: {
-                //                        HStack {
-                //                            Image(systemName: "photo.on.rectangle.angled")
-                //                                .font(.caption)
-                //                            Text("Select Images")
-                //                                .fontWeight(.medium)
-                //                        }
-                //                        .foregroundColor(.white)
-                //                        .padding(8)
-                //                        .frame(maxWidth: .infinity)
-                //                        .background(Color.blue)
-                //                        .cornerRadius(10)
-                //                    }
-                //                )
-                //                .padding(.bottom, 20)
+//                Images
+//                Preview of the selected Images
+                                ScrollView(.horizontal) {
+                                    LazyHStack {
+                                        ForEach(0..<selectedImages.count, id: \.self) { i in
+                                            selectedImages[i]
+                                                .resizable()
+                                                .scaledToFill()
+                                                .frame(height: 250)
+                                        }
+                                    }
+                                }
+                                // Button to select Images
+                                PhotosPicker(
+                                    selection: $selectedItems,
+                                    matching: .images,
+                                    label: {
+                                        HStack {
+                                            Image(systemName: "photo.on.rectangle.angled")
+                                                .font(.caption)
+                                            Text("Select Images")
+                                                .fontWeight(.medium)
+                                        }
+                                        .foregroundColor(.white)
+                                        .padding(8)
+                                        .frame(maxWidth: .infinity)
+                                        .background(Color.blue)
+                                        .cornerRadius(10)
+                                    }
+                                )
+                                .padding(.bottom, 20)
 
                 //Title
                 Text("Title")
@@ -168,20 +170,20 @@ struct ItemChangeView: View {
         .textFieldStyle(.roundedBorder)
         .padding()
         // If the user selects new images, the old ones are removed to avoid duplications and the new are loaded in
-        //        .onChange(of: selectedItems) {
-        //            Task {
-        //                selectedImages.removeAll()
-        //
-        //                for item in selectedItems {
-        //                    if let image = try? await item.loadTransferable(
-        //                        type: Image.self)
-        //                    {
-        //                        selectedImages.append(image)
-        //                    }
-        //                }
-        //
-        //            }
-        //        }
+                .onChange(of: selectedItems) {
+                    Task {
+                        selectedImages.removeAll()
+        
+                        for item in selectedItems {
+                            if let image = try? await item.loadTransferable(
+                                type: Image.self)
+                            {
+                                selectedImages.append(image)
+                            }
+                        }
+        
+                    }
+                }
         .navigationDestination(
             isPresented: $viewModel.shouldNavigateToYourItems
         ) {

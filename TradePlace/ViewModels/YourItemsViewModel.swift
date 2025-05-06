@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 import Firebase
 import FirebaseFirestore
@@ -37,14 +38,7 @@ class YourItemsViewModel : ObservableObject {
         let db = Firestore.firestore()
         do {
             let itemsForUser = try await db.collection("Users").document(user.uid).collection("TradeItems").getDocuments()
-            var items : [TradeItem] = [TradeItem(
-                id: UUID(),
-                images: [],
-                title: "Test Item",
-                description: "A description",
-                estimatedPrice: 99.99,
-                preferences: "Anything",
-                isPostedOnMarketplace: true)]
+            var items : [TradeItem] = []
             for document in itemsForUser.documents {
                 let data = document.data()
                 let title = data["title"] as? String ?? "";
