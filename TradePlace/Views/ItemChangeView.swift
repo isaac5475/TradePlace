@@ -37,7 +37,7 @@ struct ItemChangeView: View {
         _selectedImages = State(initialValue: item.images)
     }
 
-    @StateObject private var viewModel = ItemCreationViewModel()
+    @StateObject private var viewModel = ItemChangeViewModel()
 
     var body: some View {
         ScrollView {
