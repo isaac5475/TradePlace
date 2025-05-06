@@ -10,6 +10,7 @@ import Foundation
 
 import Firebase
 import FirebaseFirestore
+import FirebaseStorage
 import FirebaseAuth
 
 class ItemChangeViewModel : ObservableObject {
@@ -32,6 +33,22 @@ class ItemChangeViewModel : ObservableObject {
         ])
     }
     func deleteHandler(_ item : TradeItem) async throws {
+        let storage = Storage.storage()
+        let storageRef = storage.reference()
+        let itemFolderRef = storageRef.child("\(item.id.uuidString)");
+        
+        let imagesToDelete = try await itemFolderRef.listAll()
+        
+        for image in imagesToDelete.items {
+            print("deleting")
+            do {
+                try await image.delete()
+            }
+            catch {
+                print("error: deleting from storage")
+            }
+        }
+        
         let db = Firestore.firestore()
         let docRef = db.collection("Users").document(user.uid).collection("TradeItems").document(item.id.uuidString);
         try await docRef.delete()
