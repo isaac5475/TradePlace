@@ -39,3 +39,10 @@ class ItemCreationViewModel : ObservableObject {
         ])
     }
 }
+
+func compressToJpegData(_ data: Data, compressionQuality: CGFloat) -> Data? {
+    if let image = UIImage(data: data) {
+        return image.jpegData(compressionQuality: compressionQuality);
+    }
+    return nil;
+}
