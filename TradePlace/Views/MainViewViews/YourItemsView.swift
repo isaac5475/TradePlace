@@ -94,6 +94,7 @@ struct YourItemsView: View {
         }
         .refreshable {
             await viewModel.fetchItems();
+            await viewModel.fetchItemImages();
         }
     }
 }
