@@ -49,7 +49,7 @@ class YourItemsViewModel : ObservableObject {
                     print("Downloading...")
                     do {
                         let data = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Data, Error>) in
-                            imageRef.getData(maxSize: 6 * 1024 * 1024) { data, error in
+                            imageRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
                                 if let error = error {
                                     continuation.resume(throwing: error)
                                 } else if let data = data {
@@ -72,8 +72,7 @@ class YourItemsViewModel : ObservableObject {
                 print("Error: could not get item images from Firebase storage: \(error)")
             }
 
-            print("Returning \(itemImages.count) images")
-            return itemImages
+        return itemImages
     }
     
     func fetchItems() async {
