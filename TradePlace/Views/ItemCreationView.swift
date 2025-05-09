@@ -164,7 +164,7 @@ struct ItemCreationView: View {
                    if let imageData = try? await item.loadTransferable(
                         type: Data.self)
                     {
-                       if let jpegData = compressToJpegData(imageData, compressionQuality: 0.5) {
+                       if let jpegData = compressToJpegData(imageData, compressionQuality: 0.4) {
                            data.append(jpegData)
                        }
                     }
