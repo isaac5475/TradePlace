@@ -11,10 +11,13 @@ import FirebaseAuth
 import FirebaseFirestore
 
 struct CreateOfferPageView: View {
-    let targetItem: TradeItem;
-    @StateObject private var viewModel = CreateOfferPageViewModel();
+    @StateObject private var viewModel : CreateOfferPageViewModel
     @Environment(\.dismiss) private var dismiss
 
+    init(targetItem item: TradeItem) {
+        _viewModel = StateObject(wrappedValue: CreateOfferPageViewModel(item))
+    }
+    
     var body: some View {
         VStack(alignment: .leading) {
             Text("Your Items")
@@ -42,10 +45,7 @@ struct CreateOfferPageView: View {
             Button {
                 Task {
                     do {
-                        let selectedItems = viewModel.userItems.filter { usrItm in viewModel.selectedItemIDs.contains(usrItm.id) }
-                        if let offer = await viewModel.createTradeOffer(toUser: targetItem.belongsTo, forItem: targetItem, offeredItems: selectedItems) {
-                            try await viewModel.sendOffer(offer)
-                        }
+                        try await viewModel.sendOffer()
                     } catch {
                         print("error to send offer: \(error)")
                     }

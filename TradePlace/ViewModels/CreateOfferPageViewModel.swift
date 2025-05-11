@@ -12,6 +12,11 @@ class CreateOfferPageViewModel : ObservableObject {
     
     @Published var userItems: [TradeItem] = []
     @Published var selectedItemIDs: Set<UUID> = []
+    let targetItem : TradeItem
+    
+    init(_ targetItem : TradeItem) {
+        self.targetItem = targetItem
+    }
     
     let currentUser = Auth.auth().currentUser
     
@@ -61,7 +66,10 @@ class CreateOfferPageViewModel : ObservableObject {
         )
     }
     
-    func sendOffer(_ offer: TradeOffer) async throws {
-        try await TradeOffer.postTradeOffer(tradeOffer: offer)
+    func sendOffer() async throws {
+        let selectedItems = self.userItems.filter { usrItm in self.selectedItemIDs.contains(usrItm.id) }
+        if let offer = await createTradeOffer(toUser: targetItem.belongsTo, forItem: targetItem, offeredItems: selectedItems) {
+            try await TradeOffer.postTradeOffer(tradeOffer: offer)
+        }
     }
 }
