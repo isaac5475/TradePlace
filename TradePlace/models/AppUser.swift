@@ -23,10 +23,10 @@ struct AppUser {
         do {
             let document = try await ref.getDocument();
             guard let data = document.data() else { return nil; }
-            guard let id = data["id"] as? String else {return nil;}
             let email = data["email"] as? String;
             let displayName = data["displayName"] as? String;
-            guard let uuid = UUID(uuidString: id) else {return nil;}
+            guard let userId = ref.path.split(separator: "/").last else { return nil; }
+            guard let uuid = UUID(uuidString: String(userId)) else {return nil;}
             return AppUser(id: uuid, email: email, displayName: displayName)
 
         } catch {

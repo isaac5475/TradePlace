@@ -9,6 +9,7 @@ import Foundation
 import Firebase
 import FirebaseAuth
 import GoogleSignIn
+import FirebaseFirestore
 
 @MainActor
 class AuthViewModel: ObservableObject {
@@ -51,7 +52,20 @@ class AuthViewModel: ObservableObject {
             self.user = authResult.user
             isAuthenticated = true
             print("Signed in as: \(authResult.user.email ?? "Unknown")")
-
+            let db = Firestore.firestore()
+            let userId = Utils.uuid(from: authResult.user.uid)
+            let docRef = db.collection("Users").document(userId.uuidString)
+            do {
+                let doc = try await docRef.getDocument();
+                if !doc.exists {
+                    try await docRef.setData([
+                        "email": authResult.user.email ?? "",
+                        "displayName": authResult.user.displayName ?? "",
+                    ])
+                }
+            } catch {
+                print("Couldn't save user to db")
+            }
         } catch {
             print("Sign-in error: \(error.localizedDescription)")
         }

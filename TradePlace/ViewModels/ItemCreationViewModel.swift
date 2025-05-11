@@ -29,7 +29,7 @@ class ItemCreationViewModel : ObservableObject {
         }
         
         let db = Firestore.firestore()
-        let tradeItemsForUser = db.collection("Users").document(user.uid).collection("TradeItems");
+        let tradeItemsForUser = db.collection("Users").document(Utils.uuid(from: user.uid).uuidString).collection("TradeItems");
         let belongsToRef = try await db.collection("Users").document(item.belongsTo.id.uuidString).getDocument().reference;
         try await tradeItemsForUser.document(item.id.uuidString).setData([
             "title": item.title,
@@ -43,6 +43,7 @@ class ItemCreationViewModel : ObservableObject {
 
     func getItemOwner() async -> AppUser? {
         let uid = Utils.uuid(from: user.uid);
+        print("fetching user for uid:", uid.uuidString)
         return await AppUser.fetchUser(userId: uid);
     }
 }

@@ -19,7 +19,7 @@ class CreateOfferPageViewModel : ObservableObject {
         guard let userID = Auth.auth().currentUser?.uid else { return }
         self.userItems = []
         do {
-            let tradeItemsRefs = try await Firestore.firestore().collection("Users").document(userID).collection("TradeItems").getDocuments()
+            let tradeItemsRefs = try await Firestore.firestore().collection("Users").document(Utils.uuid(from: userID).uuidString).collection("TradeItems").getDocuments()
             for doc in tradeItemsRefs.documents {
                 if let tradeItem = await TradeItem.fetchTradeItem(doc.reference) {
                     self.userItems.append(tradeItem)

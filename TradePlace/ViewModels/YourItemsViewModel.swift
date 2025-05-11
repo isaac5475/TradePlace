@@ -77,7 +77,7 @@ class YourItemsViewModel : ObservableObject {
     func fetchItems() async {
         let db = Firestore.firestore()
         do {
-            let itemsForUser = try await db.collection("Users").document(user.uid).collection("TradeItems").getDocuments()
+            let itemsForUser = try await db.collection("Users").document(Utils.uuid(from: user.uid).uuidString).collection("TradeItems").getDocuments()
             var items : [TradeItem] = []
             for document in itemsForUser.documents {
                 let data = document.data()

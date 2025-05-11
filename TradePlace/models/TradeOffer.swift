@@ -102,7 +102,6 @@ struct TradeOffer : Identifiable {
         } catch {
             return nil;
         }
-        return nil;
     }
 }
 
