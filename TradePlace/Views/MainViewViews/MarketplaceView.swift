@@ -2,53 +2,50 @@
 //  MarketplaceView.swift
 //  TradePlace
 //
-//  Created by Jan Huecking on 1/5/2025.
+//  Created by Sahil Chopra on 11/5/2025.
 //
 // Displays all marketplace items in a grid layout.
 
 import SwiftUI
+import FirebaseStorage
 
 struct MarketplaceView: View {
-    
-    let marketplaceItems : [TradeItem] = []
-    
+    @StateObject private var viewModel = MarketplaceViewModel()
+
     var body: some View {
         ScrollView {
-            // Heading
             Text("Marketplace")
                 .font(.largeTitle)
                 .bold()
-                .padding(.bottom)
-            
-            LazyVGrid(
-                columns: [
-                    GridItem(.flexible(minimum: 50, maximum: .infinity)),
-                    GridItem(.flexible(minimum: 50, maximum: .infinity)),
-                    GridItem(.flexible(minimum: 50, maximum: .infinity)),
-                ],
-                alignment: .center
-            ) {
-                //Every Item listed on the marketplace will be added to the grid with its first image containing the link to its details and its title
-                ForEach(marketplaceItems) { item in
+                .padding()
+
+            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
+                ForEach(viewModel.marketplaceItems, id: \.id) { item in
+                    NavigationLink(destination: ItemDetailsView(item: item)) {
                         VStack {
-                            NavigationLink(destination:ItemDetailsView(item:item)){
-                                
+                            if let image = item.images.first {
+                                image
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 120)
+                                    .cornerRadius(8)
+                            } else {
+                                Rectangle()
+                                    .fill(Color.gray.opacity(0.2))
+                                    .frame(height: 120)
+                                    .cornerRadius(8)
                             }
-                            .foregroundStyle(.black)
                             Text(item.title)
                                 .font(.headline)
-                                .lineLimit(1)
                         }
+                        .padding()
                         .background(Color.white)
-                        .cornerRadius(15)
+                        .cornerRadius(12)
                         .shadow(radius: 2)
-                        
+                    }
                 }
-            }.padding(3)
+            }
+            .padding()
         }
     }
-}
-
-#Preview {
-//    MarketplaceView()
 }
