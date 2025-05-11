@@ -13,87 +13,74 @@ import SwiftUI
 
 struct YourOffersView: View {
     @State private var yourOffers : [TradeOffer] = []
+    @StateObject var viewModel = YourOffersViewModel();
+    
     var body: some View {
 
         // Creating a tap for each offer so that the user can swipe horizontaly to view the offers
         TabView {
             ForEach(yourOffers) { offer in
-                OfferPageView(offer: offer)
-            }
+                VStack{
+                    // Heading
+                    Text("Your Offers")
+                        .font(.largeTitle)
+                        .bold()
+                        .padding(.bottom)
+                        .padding(.top)
+                
+                    Spacer()
+                    
+                    Text("\(offer.fromUser.displayName!) suggests:")
+                        .font(.title)
+                        .bold()
+                    
+                    List(offer.offeredItems) { offeredItem in
+                        Text(offeredItem.title)
+                            .font(.title3)
+                            .padding()
+                        
+                        Spacer()
+                        
+                        // Buttons to decline and accept
+                        HStack{
+                            Button(action: {Task { await viewModel.declineOffer(offer)}}) {
+                                
+                                Text("Decline")
+                                    .font(.title3)
+                                    .frame(maxWidth: .infinity, minHeight: 70)
+                                    .padding()
+                                    .background(Color.red)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(12)
+                            }
+                            
+                            Button(action: {Task { await viewModel.acceptOffer(offer)}}) {
+                                Text("Accept")
+                                    .font(.title3)
+                                    .frame(maxWidth: .infinity, minHeight: 70)
+                                    .padding()
+                                    .background(Color.green)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(12)
+                            }
+                        }
+                        .padding(.horizontal)
+                        .padding(.bottom, 60)
+                    }
+                    .padding()
+                }
+                .onAppear {
+                    Task {
+                        await viewModel.fetchItems()
+                    }
+                }
+                .refreshable {
+                    Task {
+                        await viewModel.fetchItems()
+                    }
+                }            }
         }
         .tabViewStyle(PageTabViewStyle())
         .indexViewStyle(.page(backgroundDisplayMode: .always))
     }
-}
-
-// View of the offer itself
-struct OfferPageView: View {
-    let offer: TradeOffer
-    
-    var body: some View {
-       
-        VStack{
-            // Heading
-            Text("Your Offers")
-                .font(.largeTitle)
-                .bold()
-                .padding(.bottom)
-                .padding(.top)
-        
-            Spacer()
-            
-            Text("\(offer.fromUser.displayName!) suggests:")
-                .font(.title)
-                .bold()
-            
-            List(offer.offeredItems) { offeredItem in
-                Text(offeredItem.title)
-                    .font(.title3)
-                    .padding()
-            }
-            Spacer()
-            
-            Text("For your item:")
-                .font(.title)
-                .bold()
-
-            Text(offer.forItem.title)
-                .font(.title3)
-                .padding()
-
-            Spacer()
-
-            // Buttons to decline and accept
-            HStack{
-                Button(action: {}) {
-                    
-                    Text("Decline")
-                        .font(.title3)
-                        .frame(maxWidth: .infinity, minHeight: 70)
-                        .padding()
-                        .background(Color.red)
-                        .foregroundColor(.white)
-                        .cornerRadius(12)
-                }
-
-                Button(action: {}) {
-                    Text("Accept")
-                        .font(.title3)
-                        .frame(maxWidth: .infinity, minHeight: 70)
-                        .padding()
-                        .background(Color.green)
-                        .foregroundColor(.white)
-                        .cornerRadius(12)
-                }
-            }
-            .padding(.horizontal)
-            .padding(.bottom, 60)
-        }
-        .padding()
-    }
-}
-
-
-#Preview {
-    YourOffersView()
 }
