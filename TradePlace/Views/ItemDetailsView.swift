@@ -9,73 +9,60 @@
 import SwiftUI
 
 struct ItemDetailsView: View {
-    var item: TradeItem
+    let item: TradeItem
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 15) {
+            VStack(alignment: .leading, spacing: 16) {
+                if let firstImage = item.images.first {
+                    firstImage
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 200)
+                        .cornerRadius(12)
+                } else {
+                    Rectangle()
+                        .fill(Color.gray.opacity(0.3))
+                        .frame(height: 200)
+                        .cornerRadius(12)
+                }
 
-                // Images
-                //  TODO: change to process images, show empty image if the array is empty
-                
-//                TabView {
-//                    ForEach(item.imageNames, id: \.self) { imageName in
-//                        Image(systemName: imageName)
-//                            .resizable()
-//                            .scaledToFit()
-//                    }
-//                }
-//                .tabViewStyle(PageTabViewStyle())
-//                .indexViewStyle(.page(backgroundDisplayMode: .always))
-//                .frame(height: 250)
-
-                // Title
                 Text(item.title)
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
+                    .font(.title)
+                    .bold()
 
-                // Description
                 Text(item.description)
                     .font(.body)
 
-                // Looking for
                 HStack {
-                    Text("Looking for:")
-                        .font(.headline)
+                    Text("Estimated Price:")
+                        .bold()
+                    Text("$\(item.estimatedPrice, specifier: "%.2f")")
+                }
 
+                HStack {
+                    Text("Preferences:")
+                        .bold()
                     Text(item.preferences)
                 }
 
-                // Estimated price
-                HStack {
-                    Text("Estimated Price:")
+                NavigationLink(destination: CreateOfferPageView(targetItem: item)) {
+                    Text("Make Offer")
                         .font(.headline)
-                    
-                    Text("$\(item.estimatedPrice, specifier: "%.2f")")
-                        .font(.body)
-                    
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(12)
                 }
-                Spacer()
+                .padding(.top, 24)
             }
+            .padding()
         }
-        .padding([.horizontal, .top])
-        
-//         Trade Button
-        NavigationLink(destination: CreateOfferPageView(targetItem: item)) {
-            Text("Trade")
-                .font(.title)
-                .bold()
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(Color.blue)
-                .cornerRadius(12)
-                .padding([.horizontal, .bottom])
-            
-        }
+        .navigationTitle("Item Details")
     }
-
 }
+
 
 #Preview {
     ItemDetailsView(
