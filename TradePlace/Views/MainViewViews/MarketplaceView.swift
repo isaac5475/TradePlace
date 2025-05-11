@@ -9,6 +9,9 @@
 import SwiftUI
 
 struct MarketplaceView: View {
+    
+    let marketplaceItems : [TradeItem] = []
+    
     var body: some View {
         ScrollView {
             // Heading
@@ -47,5 +50,5 @@ struct MarketplaceView: View {
 }
 
 #Preview {
-    MarketplaceView()
+//    MarketplaceView()
 }

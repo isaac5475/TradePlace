@@ -61,7 +61,7 @@ struct ItemDetailsView: View {
         .padding([.horizontal, .top])
         
 //         Trade Button
-        NavigationLink(destination: OfferpageView()) {
+        NavigationLink(destination: CreateOfferPageView(targetItem: item)) {
             Text("Trade")
                 .font(.title)
                 .bold()
@@ -84,5 +84,5 @@ struct ItemDetailsView: View {
             description:
                 "A sturdy mountain bike, perfect for trails and city commutes.",
             estimatedPrice: 300.0,
-            preferences: "everything", isPostedOnMarketplace: true))
+            preferences: "everything", isPostedOnMarketplace: true, belongsTo: AppUser(id: UUID(), email: "bob@test.omc", displayName: "Bob")))
 }

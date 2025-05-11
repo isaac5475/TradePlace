@@ -194,7 +194,8 @@ struct ItemChangeView: View {
             description: "A description",
             estimatedPrice: 99.99,
             preferences: "Anything",
-            isPostedOnMarketplace: true
+            isPostedOnMarketplace: true,
+            belongsTo: AppUser(id: UUID(), email: "", displayName: "")
         ),
         onSave: { _ in }
     )

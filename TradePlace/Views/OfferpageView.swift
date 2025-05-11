@@ -9,12 +9,10 @@
 import SwiftUI
 import FirebaseAuth
 import FirebaseFirestore
-import FirebaseFirestoreSwift
 
-struct OfferPageView: View {
-    let targetItem: TradeItem
-    @State private var userItems: [TradeItem] = []
-    @State private var selectedItemIDs: Set<UUID> = []
+struct CreateOfferPageView: View {
+    let targetItem: TradeItem;
+    @StateObject private var viewModel = CreateOfferPageViewModel();
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -26,12 +24,12 @@ struct OfferPageView: View {
 
             ScrollView {
                 LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
-                    ForEach(userItems, id: \.id) { item in
-                        ItemSelectionBox(item: item, isSelected: selectedItemIDs.contains(item.id)) {
-                            if selectedItemIDs.contains(item.id) {
-                                selectedItemIDs.remove(item.id)
+                    ForEach(viewModel.userItems, id: \.id) { item in
+                        ItemSelectionBox(item: item, isSelected: viewModel.selectedItemIDs.contains(item.id)) {
+                            if viewModel.selectedItemIDs.contains(item.id) {
+                                viewModel.selectedItemIDs.remove(item.id)
                             } else {
-                                selectedItemIDs.insert(item.id)
+                                viewModel.selectedItemIDs.insert(item.id)
                             }
                         }
                     }
@@ -41,70 +39,36 @@ struct OfferPageView: View {
 
             Spacer()
 
-            Button(action: {
-                sendOffer()
-            }) {
+            Button {
+                Task {
+                    do {
+                        let selectedItems = viewModel.userItems.filter { usrItm in viewModel.selectedItemIDs.contains(usrItm.id) }
+                        if let offer = await viewModel.createTradeOffer(toUser: targetItem.belongsTo, forItem: targetItem, offeredItems: selectedItems) {
+                            try await viewModel.sendOffer(offer)
+                        }
+                    } catch {
+                        print("error to send offer: \(error)")
+                    }
+                }
+            } label: {
                 Text("Offer")
                     .font(.headline)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(selectedItemIDs.isEmpty ? Color.gray : Color.blue)
+                    .background(viewModel.selectedItemIDs.isEmpty ? Color.gray : Color.blue)
                     .foregroundColor(.white)
                     .cornerRadius(12)
             }
-            .disabled(selectedItemIDs.isEmpty)
+            .disabled(viewModel.selectedItemIDs.isEmpty)
             .padding()
         }
         .onAppear {
-            fetchUserItems()
+            Task {
+                await viewModel.fetchUserItems()
+            }
         }
         .navigationTitle("Make an Offer")
     }
 
-    private func fetchUserItems() {
-        guard let userID = Auth.auth().currentUser?.uid else { return }
-
-        Firestore.firestore().collection("items")
-            .whereField("ownerID", isEqualTo: userID)
-            .getDocuments { snapshot, error in
-                guard let docs = snapshot?.documents else { return }
-                self.userItems = docs.compactMap {
-                    try? $0.data(as: TradeItem.self)
-                }
-            }
-    }
-
-    private func sendOffer() {
-        guard let currentUser = Auth.auth().currentUser else { return }
-
-        let fromUser = AppUser(id: currentUser.uid,
-                               email: currentUser.email ?? "",
-                               displayName: currentUser.displayName ?? "Unnamed")
-
-        let toUser = AppUser(id: targetItem.ownerID,
-                             email: "", // Fill from DB if needed
-                             displayName: "") // Fill from DB if needed
-
-        let offeredItems = userItems.filter { selectedItemIDs.contains($0.id) }
-
-        let offer = TradeOffer(
-            fromUser: fromUser,
-            toUser: toUser,
-            requestedItem: targetItem,
-            offeredItems: offeredItems,
-            createdAt: Date(),
-            updatedAt: Date()
-        )
-
-        do {
-            try Firestore.firestore()
-                .collection("tradeOffers")
-                .document(offer.id)
-                .setData(from: offer)
-
-            dismiss()
-        } catch {
-            print("Error sending offer: \(error)")
-        }
-    }
+    
 }

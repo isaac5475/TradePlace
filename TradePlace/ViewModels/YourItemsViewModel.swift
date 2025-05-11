@@ -19,13 +19,6 @@ class YourItemsViewModel : ObservableObject {
     @Published var items : [TradeItem] = []
     @Published var isError = false;
     @Published var navigateToItemChangeView = false
-    @Published var item : TradeItem = TradeItem(id: UUID(),
-                                                images: [],
-                                                title: "Test Item",
-                                                description: "A description",
-                                                estimatedPrice: 99.99,
-                                                preferences: "Anything",
-                                                isPostedOnMarketplace: true)
     
     let user = Auth.auth().currentUser!;
 
@@ -88,13 +81,12 @@ class YourItemsViewModel : ObservableObject {
             var items : [TradeItem] = []
             for document in itemsForUser.documents {
                 let data = document.data()
-                let title = data["title"] as? String ?? "";
-                let description = data["description"] as? String ?? "";
-                let preferences = data["preferences"] as? String ?? "";
-                let estimatedPrice = data["estimatedPrice"] as? Double ?? 0.0
-                let isPostedOnMarketplace = data["isPostedOnMarketplace"] as? Bool ?? false
-                let tradeItem = TradeItem(id: UUID(uuidString: document.documentID)!, images: [] /* images loaded in the background after to avoid slow loading of page */ , title: title, description: description, estimatedPrice: estimatedPrice, preferences: preferences, isPostedOnMarketplace: isPostedOnMarketplace)
-                items.insert(tradeItem, at: 0)
+                let tradeItem = await TradeItem.parseTradeItem(tradeItemId: UUID(uuidString: document.documentID)!, data)
+                if tradeItem != nil {
+                    items.insert(tradeItem!, at: 0)
+                } else {
+                    continue;
+                }
             }
             self.items = items;
         } catch {

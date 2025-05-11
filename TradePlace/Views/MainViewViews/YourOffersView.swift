@@ -12,12 +12,12 @@ import SwiftUI
 
 
 struct YourOffersView: View {
-    @State private var yourOffers = [sampleOffers[0]]
+    @State private var yourOffers : [TradeOffer] = []
     var body: some View {
 
         // Creating a tap for each offer so that the user can swipe horizontaly to view the offers
         TabView {
-            ForEach(sampleOffers) { offer in
+            ForEach(yourOffers) { offer in
                 OfferPageView(offer: offer)
             }
         }
