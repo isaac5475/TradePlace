@@ -23,7 +23,7 @@ class ItemChangeViewModel : ObservableObject {
     
     func handleSubmit(toSubmit item : TradeItem) async throws {
         let db = Firestore.firestore()
-        let docRef = db.collection("Users").document(user.uid).collection("TradeItems").document(item.id.uuidString);
+        let docRef = db.collection("Users").document(Utils.uuid(from: user.uid).uuidString).collection("TradeItems").document(item.id.uuidString);
         try await docRef.updateData([
             "title": item.title,
             "description": item.description,
@@ -48,7 +48,7 @@ class ItemChangeViewModel : ObservableObject {
         }
         
         let db = Firestore.firestore()
-        let docRef = db.collection("Users").document(user.uid).collection("TradeItems").document(item.id.uuidString);
+        let docRef = db.collection("Users").document(Utils.uuid(from: user.uid).uuidString).collection("TradeItems").document(item.id.uuidString);
         try await docRef.delete()
     }
 }

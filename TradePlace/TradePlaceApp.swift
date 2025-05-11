@@ -42,9 +42,9 @@ struct YourApp: App {
                     ) {
                         ItemChangeView(item: coordinator.itemToEdit, onSave: { updatedItem in
                             // Replace the old item with the edited one
-                            if let index = marketplaceItems.firstIndex(where: { $0.id == updatedItem.id }) {
-                                marketplaceItems[index] = updatedItem
-                            }
+//                            if let index = marketplaceItems.firstIndex(where: { $0.id == updatedItem.id }) {
+//                                marketplaceItems[index] = updatedItem
+//                            }
                         })
                     }
             }

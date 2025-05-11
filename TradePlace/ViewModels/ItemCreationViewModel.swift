@@ -29,16 +29,25 @@ class ItemCreationViewModel : ObservableObject {
         }
         
         let db = Firestore.firestore()
-        let tradeItemsForUser = db.collection("Users").document(user.uid).collection("TradeItems");
+        let tradeItemsForUser = db.collection("Users").document(Utils.uuid(from: user.uid).uuidString).collection("TradeItems");
+        let belongsToRef = try await db.collection("Users").document(item.belongsTo.id.uuidString).getDocument().reference;
         try await tradeItemsForUser.document(item.id.uuidString).setData([
             "title": item.title,
             "description": item.description,
             "estimatedPrice": item.estimatedPrice,
             "isPostedOnMarketplace": item.isPostedOnMarketplace,
             "preferences": item.preferences,
+            "belongsTo": belongsToRef
         ])
     }
+
+    func getItemOwner() async -> AppUser? {
+        let uid = Utils.uuid(from: user.uid);
+        print("fetching user for uid:", uid.uuidString)
+        return await AppUser.fetchUser(userId: uid);
+    }
 }
+
 
 func compressToJpegData(_ data: Data, compressionQuality: CGFloat) -> Data? {
     if let image = UIImage(data: data) {

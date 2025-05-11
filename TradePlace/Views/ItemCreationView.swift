@@ -16,7 +16,6 @@ struct ItemCreationView: View {
     @State private var estimatedPrice: String = ""
     @State private var lookingFor: String = ""
     @State private var isPosted: Bool = false
-    
     @State private var selectedItems = [PhotosPickerItem]()
     @State private var selectedImages = [Image]()
     @State private var data = [Data]()
@@ -116,16 +115,18 @@ struct ItemCreationView: View {
                     
                     Button {
                         guard !viewModel.isSubmitting else { return }
-                        let newItem = TradeItem(
-                            images: selectedImages,
-                            title: title,
-                            description: description,
-                            estimatedPrice: Double(estimatedPrice) ?? 0.0,
-                            preferences: lookingFor,
-                            isPostedOnMarketplace: isPosted
-                        )
-                        viewModel.isSubmitting = true;
                         Task {
+                            let appUser = await viewModel.getItemOwner()!
+                            let newItem = TradeItem(
+                                images: selectedImages,
+                                title: title,
+                                description: description,
+                                estimatedPrice: Double(estimatedPrice) ?? 0.0,
+                                preferences: lookingFor,
+                                isPostedOnMarketplace: isPosted,
+                                belongsTo: appUser
+                            )
+                            viewModel.isSubmitting = true;
                             do {
                                 try await viewModel.handleSubmit(toSubmit: newItem, images: data)
                                 coordinator.goToItems = true;
