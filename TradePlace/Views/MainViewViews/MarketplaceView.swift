@@ -10,8 +10,7 @@ import SwiftUI
 
 struct MarketplaceView: View {
     
-    let marketplaceItems : [TradeItem] = []
-    
+    @StateObject var viewModel = MarketplaceViewModel();
     var body: some View {
         ScrollView {
             // Heading
@@ -29,7 +28,7 @@ struct MarketplaceView: View {
                 alignment: .center
             ) {
                 //Every Item listed on the marketplace will be added to the grid with its first image containing the link to its details and its title
-                ForEach(marketplaceItems) { item in
+                ForEach(viewModel.items) { item in
                         VStack {
                             NavigationLink(destination:ItemDetailsView(item:item)){
                                 
@@ -44,7 +43,18 @@ struct MarketplaceView: View {
                         .shadow(radius: 2)
                         
                 }
-            }.padding(3)
+            }
+            .padding(3)
+            .onAppear {
+                Task {
+                    await viewModel.fetchTradeItems()
+                }
+            }
+            .refreshable {
+                Task {
+                    await viewModel.fetchTradeItems()
+                }
+            }
         }
     }
 }
