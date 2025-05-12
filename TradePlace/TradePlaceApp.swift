@@ -28,28 +28,12 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct YourApp: App {
   // register app delegate for Firebase setup
   @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    @StateObject var coordinator = NavigationCoordinator();
+@StateObject var coordinator = NavigationCoordinator();
   var body: some Scene {
     WindowGroup {
         NavigationView {
             NavigationStack {
                 AuthView()
-                    .navigationDestination(isPresented: $coordinator.goToItems) {
-                        YourItemsView()
-                    }
-                    .navigationDestination(
-                        isPresented: $coordinator.goToItemChange
-                    ) {
-                        ItemChangeView(item: coordinator.itemToEdit, onSave: { updatedItem in
-                            // Replace the old item with the edited one
-//                            if let index = marketplaceItems.firstIndex(where: { $0.id == updatedItem.id }) {
-//                                marketplaceItems[index] = updatedItem
-//                            }
-                        })
-                    }
-                    .navigationDestination(isPresented: $coordinator.goToYourOffers) {
-                        YourOffersView()
-                    }
             }
             .environmentObject(coordinator)
         }

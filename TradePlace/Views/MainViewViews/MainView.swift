@@ -9,7 +9,10 @@
 import SwiftUI
 
 
-struct MainView: View {    
+struct MainView: View {
+
+    @EnvironmentObject var coordinator : NavigationCoordinator;
+
     var body: some View {
             TabView {
                 MarketplaceView()
@@ -36,6 +39,20 @@ struct MainView: View {
                     .tabItem {
                         Label("Account", systemImage: "person")
                     }
+            }
+            .navigationBarBackButtonHidden(true)
+            .navigationDestination(
+                isPresented: $coordinator.goToItemChange
+            ) {
+                ItemChangeView(item: coordinator.itemToEdit, onSave: { updatedItem in
+                    // Replace the old item with the edited one
+//                            if let index = marketplaceItems.firstIndex(where: { $0.id == updatedItem.id }) {
+//                                marketplaceItems[index] = updatedItem
+//                            }
+                })
+            }
+            .navigationDestination(isPresented: $coordinator.goToYourOffers) {
+                YourOffersView()
             }
         }
 }
