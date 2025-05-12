@@ -20,7 +20,7 @@ class YourOffersViewModel: ObservableObject {
         let db = Firestore.firestore()
         let offersRef = db.collection("Users").document(userId).collection("TradeOffers")
 
-        do {
+        do {    //  fetch offers offered TO the current user
             let snapshot = try await offersRef.getDocuments()
             var offers: [TradeOffer] = []
 
@@ -29,6 +29,19 @@ class YourOffersViewModel: ObservableObject {
                     offers.append(offer)
                 }
             }
+            
+                //  fetch offers offered BY the current user
+                let currentUserRef = db.document("Users/\(Utils.uuid(from: user.uid))")
+                let snapshot2 = try await db.collectionGroup("TradeOffers")
+                    .whereField("fromUser", isEqualTo: currentUserRef)
+                    .getDocuments()
+            for doc in snapshot2.documents {
+                if let offer = await TradeOffer.fetchTradeOffer(doc.reference) {
+                    offers.append(offer)
+                }
+                print("fetched offers offered by curr user: \(snapshot2.count)")
+            }
+            offers = offers.sorted { $0.updatedAt > $1.updatedAt}
             self.userOffers = offers
         } catch {
             print("Failed to fetch trade offers: \(error)")

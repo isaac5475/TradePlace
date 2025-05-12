@@ -46,6 +46,8 @@ struct CreateOfferPageView: View {
                         let selectedItems = viewModel.userItems.filter { usrItm in viewModel.selectedItemIDs.contains(usrItm.id) }
                         if let offer = await viewModel.createTradeOffer(toUser: targetItem.belongsTo, forItem: targetItem, offeredItems: selectedItems) {
                             try await viewModel.sendOffer(offer)
+                        } else {
+                            print("couldn't create offer")
                         }
                     } catch {
                         print("error to send offer: \(error)")
