@@ -34,6 +34,9 @@ struct YourApp: App {
         NavigationView {
             NavigationStack {
                 AuthView()
+                    .navigationDestination(isPresented: $coordinator.goToAuth) {
+                        AuthView()
+                    }
             }
             .environmentObject(coordinator)
         }
