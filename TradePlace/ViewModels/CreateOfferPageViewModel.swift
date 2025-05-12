@@ -34,21 +34,9 @@ class CreateOfferPageViewModel : ObservableObject {
     func createTradeOffer(toUser to : AppUser, forItem item: TradeItem, offeredItems items: [TradeItem]) async -> TradeOffer? {
         guard let currentUser = currentUser else { return nil }
         guard !items.isEmpty else { return nil; }
-        let fetchedFromUser = await AppUser.fetchUser(userId: Utils.uuid(from: currentUser.uid))
-        let fromUser : AppUser
-        if fetchedFromUser != nil {
-            fromUser = fetchedFromUser!;
-        } else {
-            fromUser = AppUser(email: currentUser.email, displayName: currentUser.displayName)
-        }
-        
-        let fetchedToUser = await AppUser.fetchUser(userId: item.id)
-        let toUser : AppUser
-        if fetchedToUser != nil {
-            toUser = fetchedToUser!;
-        } else {
-            return nil; //  Unlikely that we are making an offer to a user that is non existent in the db
-        }
+        let fromUser = AppUser.init(id: Utils.uuid(from: currentUser.uid), email: currentUser.email, displayName: currentUser.email)
+        let fetchedToUser = await AppUser.fetchUser(userId: item.belongsTo.id)
+        guard let toUser = fetchedToUser else {return nil;}
                 
         return TradeOffer(
             forItem: item,
