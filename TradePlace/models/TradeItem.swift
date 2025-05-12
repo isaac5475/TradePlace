@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUICore
 import FirebaseFirestore
+import FirebaseStorage
 
 struct TradeItem : Identifiable {
     let id : UUID
@@ -53,16 +54,59 @@ struct TradeItem : Identifiable {
         
         return TradeItem(id: id, images: [] /* images loaded in the background after to avoid slow loading of page */ , title: title, description: description, estimatedPrice: estimatedPrice, preferences: preferences, isPostedOnMarketplace: isPostedOnMarketplace, belongsTo: belongsTo)
     }
-    static func fetchTradeItem(_ docRef: DocumentReference) async -> TradeItem?{
+    
+    static func fetchTradeItem(_ docRef: DocumentReference, fetchImages fetch : Bool = false) async -> TradeItem?{
         do {
             let data = try await docRef.getDocument()
             guard let data = data.data() else {return nil;}
             guard let documentId = docRef.path.split(separator: "/").last else {return nil;}    //  try to get the id of the trade item, which is stored in path
             let documentIdStr = String(documentId)
-            return await TradeItem.parseTradeItem(tradeItemId: UUID(uuidString: documentIdStr)!, data)
+            var tradeItem = await TradeItem.parseTradeItem(tradeItemId: UUID(uuidString: documentIdStr)!, data)
+            if fetch {
+                await tradeItem?.fetchItemImages()
+            }
+            return tradeItem;
         } catch {
             return nil;
         }
+    }
+    
+    mutating func fetchItemImages() async {
+        var itemImages = [Image]()
+        
+        let storage = Storage.storage()
+        let storageRef = storage.reference()
+        let itemFolderRef = storageRef.child("\(self.id.uuidString)");
+        
+        do {
+            let fetchedImages = try await itemFolderRef.listAll()
+            
+            for imageRef in fetchedImages.items {
+                do {
+                    let data = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Data, Error>) in
+                        imageRef.getData(maxSize: 2 * 1024 * 1024) { data, error in
+                            if let error = error {
+                                continuation.resume(throwing: error)
+                            } else if let data = data {
+                                continuation.resume(returning: data)
+                            }
+                        }
+                    }
+                    
+                    if let uiImage = UIImage(data: data) {
+                        itemImages.append(Image(uiImage: uiImage))
+                        //print("Added image to itemImages")
+                    }
+                    
+                } catch {
+                    print("Error downloading image: \(error)")
+                }
+            }
+            
+        } catch {
+            print("Error: could not get item images from Firebase storage: \(error)")
+        }
+        images = itemImages
     }
 }
 

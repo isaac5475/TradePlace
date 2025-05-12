@@ -92,14 +92,8 @@ struct YourItemsView: View {
             }
             .padding(3)
         }
-        .onAppear {
-            Task {
-                await viewModel.fetchItemImages();
-            }
-        }
         .refreshable {
             await viewModel.fetchItems();
-            await viewModel.fetchItemImages();
         }
     }
 }

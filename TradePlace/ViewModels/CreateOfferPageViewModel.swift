@@ -22,7 +22,7 @@ class CreateOfferPageViewModel : ObservableObject {
         do {
             let tradeItemsRefs = try await Firestore.firestore().collection("Users").document(Utils.uuid(from: userID).uuidString).collection("TradeItems").getDocuments()
             for doc in tradeItemsRefs.documents {
-                if let tradeItem = await TradeItem.fetchTradeItem(doc.reference) {
+                if let tradeItem = await TradeItem.fetchTradeItem(doc.reference, fetchImages: true) {
                     self.userItems.append(tradeItem)
                 }
             }
