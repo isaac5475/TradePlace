@@ -26,7 +26,7 @@ struct YourOffersView: View {
             } else {
                 TabView {
                     ForEach(viewModel.userOffers, id: \.id) { offer in
-                        OfferCardView(offer: offer)
+                        OfferCardView(offer: offer, viewModel: viewModel)
                     }
                 }
                 .tabViewStyle(PageTabViewStyle())
@@ -40,7 +40,8 @@ struct YourOffersView: View {
 
 struct OfferCardView: View {
     let offer: TradeOffer
-
+    @StateObject var viewModel : YourOffersViewModel
+    
     var body: some View {
         VStack(spacing: 20) {
             Text("Offered Items:")
@@ -73,7 +74,28 @@ struct OfferCardView: View {
             Text(offer.forItem.title)
                 .font(.title3)
                 .bold()
-
+            if offer.status == .CREATED && offer.forItem.belongsTo.id == Utils.uuid(from: viewModel.user.uid) {
+                HStack {
+                    Button("Decline") {
+                        Task {
+                            TradeOffer.reject(offer)
+                        }
+                    }
+                    .foregroundStyle(.white)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.red)
+                    .cornerRadius(8)
+                    Button("Accept") {
+                        Task {TradeOffer.accept(offer) }
+                    }
+                    .foregroundStyle(.white)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.green)
+                    .cornerRadius(8)
+                }
+            }
             Text("Status: \(offer.status.rawValue)")
                 .foregroundColor(.blue)
                 .padding(.top)

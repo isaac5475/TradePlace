@@ -13,9 +13,9 @@ import FirebaseAuth
 @MainActor
 class YourOffersViewModel: ObservableObject {
     @Published var userOffers: [TradeOffer] = []
+    let user = Auth.auth().currentUser!
 
     func fetchYourOffers() async {
-        guard let user = Auth.auth().currentUser else { return }
         let userId = Utils.uuid(from: user.uid).uuidString
         let db = Firestore.firestore()
         let offersRef = db.collection("Users").document(userId).collection("TradeOffers")
