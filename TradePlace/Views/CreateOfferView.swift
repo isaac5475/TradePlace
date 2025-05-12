@@ -22,20 +22,23 @@ struct CreateOfferPageView: View {
                 .font(.title2)
                 .bold()
                 .padding()
-
-            ScrollView {
-                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
-                    ForEach(viewModel.userItems, id: \.id) { item in
-                        ItemSelectionBox(item: item, isSelected: viewModel.selectedItemIDs.contains(item.id)) {
-                            if viewModel.selectedItemIDs.contains(item.id) {
-                                viewModel.selectedItemIDs.remove(item.id)
-                            } else {
-                                viewModel.selectedItemIDs.insert(item.id)
+            if viewModel.userItems.isEmpty {
+                ProgressView()
+            } else {
+                ScrollView {
+                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
+                        ForEach(viewModel.userItems, id: \.id) { item in
+                            ItemSelectionBox(item: item, isSelected: viewModel.selectedItemIDs.contains(item.id)) {
+                                if viewModel.selectedItemIDs.contains(item.id) {
+                                    viewModel.selectedItemIDs.remove(item.id)
+                                } else {
+                                    viewModel.selectedItemIDs.insert(item.id)
+                                }
                             }
                         }
                     }
+                    .padding(.horizontal)
                 }
-                .padding(.horizontal)
             }
 
             Spacer()

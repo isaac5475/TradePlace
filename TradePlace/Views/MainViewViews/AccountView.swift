@@ -24,7 +24,9 @@ struct AccountView: View {
             SignOutOfGoogleButton {
                 Task {
                     viewModel.signOut();
+                    
                 }
+                coordinator.goToAuth = true;
             }
             .padding(.vertical)
         }
