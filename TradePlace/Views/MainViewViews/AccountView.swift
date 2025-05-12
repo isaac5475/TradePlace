@@ -7,18 +7,27 @@
 // Shows all account informations
 
 import SwiftUI
+import FirebaseAuth
 
 struct AccountView: View {
     @EnvironmentObject var coordinator: NavigationCoordinator
     @StateObject private var viewModel = AuthViewModel()
+    let user = Auth.auth().currentUser!;
     
     var body: some View {
+        VStack {
+            Text("\(user.displayName ?? "User")'s Profile")
+            Text("Account Status: \(user.isEmailVerified ? "Email verified" : "Email not verified")")
+            
+            Spacer()
+            
             SignOutOfGoogleButton {
                 Task {
                     viewModel.signOut();
-                    //coordinator.isSignedIn = false
                 }
             }
+            .padding(.vertical)
+        }
     }
 }
 
