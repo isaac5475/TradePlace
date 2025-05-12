@@ -30,17 +30,12 @@ class MarketplaceViewModel: ObservableObject {
                 Task {
                     var fetchedItems: [TradeItem] = []
                     for document in documents {
-                        let documentId = document.documentID
-                        if let uuid = UUID(uuidString: documentId) {
-                            let item = await TradeItem.parseTradeItem(tradeItemId: uuid, document.data())
+                        let item = await TradeItem.fetchTradeItem(document.reference, fetchImages: true)
                             if let item = item {
                                 fetchedItems.append(item)
                             } else {
-                                print("⚠️ Could not parse TradeItem with id \(documentId)")
+                                print("⚠️ Could not fetch TradeItem with id \(document.documentID)")
                             }
-                        } else {
-                            print("⚠️ Invalid UUID for TradeItem ID: \(documentId)")
-                        }
                     }
 
                     self.marketplaceItems = fetchedItems

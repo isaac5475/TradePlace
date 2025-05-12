@@ -47,5 +47,8 @@ struct MarketplaceView: View {
             }
             .padding()
         }
+        .refreshable {
+            viewModel.fetchMarketplaceItems()
+        }
     }
 }
