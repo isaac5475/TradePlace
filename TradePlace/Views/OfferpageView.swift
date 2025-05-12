@@ -14,6 +14,7 @@ struct CreateOfferPageView: View {
     let targetItem: TradeItem;
     @StateObject private var viewModel = CreateOfferPageViewModel();
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var coordinator : NavigationCoordinator;
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -50,6 +51,8 @@ struct CreateOfferPageView: View {
                         print("error to send offer: \(error)")
                     }
                 }
+                coordinator.goToYourOffers = true;
+
             } label: {
                 Text("Offer")
                     .font(.headline)
