@@ -47,6 +47,9 @@ struct YourApp: App {
 //                            }
                         })
                     }
+                    .navigationDestination(isPresented: $coordinator.goToYourOffers) {
+                        YourOffersView()
+                    }
             }
             .environmentObject(coordinator)
         }

@@ -8,6 +8,7 @@
 import FirebaseAuth
 import FirebaseFirestore
 
+@MainActor
 class CreateOfferPageViewModel : ObservableObject {
     
     @Published var userItems: [TradeItem] = []
@@ -25,7 +26,6 @@ class CreateOfferPageViewModel : ObservableObject {
                     self.userItems.append(tradeItem)
                 }
             }
-            
         } catch {
             print("Couldn't fetch TradeItem's for \(userID)")
         }
@@ -34,7 +34,7 @@ class CreateOfferPageViewModel : ObservableObject {
     func createTradeOffer(toUser to : AppUser, forItem item: TradeItem, offeredItems items: [TradeItem]) async -> TradeOffer? {
         guard let currentUser = currentUser else { return nil }
         guard !items.isEmpty else { return nil; }
-        let fetchedFromUser = await AppUser.fetchUser(userId: UUID(uuidString: currentUser.uid)!)
+        let fetchedFromUser = await AppUser.fetchUser(userId: Utils.uuid(from: currentUser.uid))
         let fromUser : AppUser
         if fetchedFromUser != nil {
             fromUser = fetchedFromUser!;

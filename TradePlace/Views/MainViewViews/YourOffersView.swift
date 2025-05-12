@@ -9,89 +9,81 @@
 
 import SwiftUI
 
-
-
 struct YourOffersView: View {
-    @State private var yourOffers : [TradeOffer] = []
-    var body: some View {
+    @StateObject private var viewModel = YourOffersViewModel()
 
-        // Creating a tap for each offer so that the user can swipe horizontaly to view the offers
-        TabView {
-            ForEach(yourOffers) { offer in
-                OfferPageView(offer: offer)
-            }
-        }
-        .tabViewStyle(PageTabViewStyle())
-        .indexViewStyle(.page(backgroundDisplayMode: .always))
-    }
-}
-
-// View of the offer itself
-struct OfferPageView: View {
-    let offer: TradeOffer
-    
     var body: some View {
-       
-        VStack{
-            // Heading
+        VStack {
             Text("Your Offers")
                 .font(.largeTitle)
                 .bold()
-                .padding(.bottom)
-                .padding(.top)
-        
-            Spacer()
-            
-            Text("\(offer.fromUser.displayName!) suggests:")
-                .font(.title)
-                .bold()
-            
-            List(offer.offeredItems) { offeredItem in
-                Text(offeredItem.title)
-                    .font(.title3)
-                    .padding()
-            }
-            Spacer()
-            
-            Text("For your item:")
-                .font(.title)
-                .bold()
-
-            Text(offer.forItem.title)
-                .font(.title3)
                 .padding()
 
-            Spacer()
-
-            // Buttons to decline and accept
-            HStack{
-                Button(action: {}) {
-                    
-                    Text("Decline")
-                        .font(.title3)
-                        .frame(maxWidth: .infinity, minHeight: 70)
-                        .padding()
-                        .background(Color.red)
-                        .foregroundColor(.white)
-                        .cornerRadius(12)
+            if viewModel.userOffers.isEmpty {
+                Text("No offers made yet.")
+                    .foregroundColor(.gray)
+                    .padding()
+            } else {
+                TabView {
+                    ForEach(viewModel.userOffers, id: \.id) { offer in
+                        OfferCardView(offer: offer)
+                    }
                 }
-
-                Button(action: {}) {
-                    Text("Accept")
-                        .font(.title3)
-                        .frame(maxWidth: .infinity, minHeight: 70)
-                        .padding()
-                        .background(Color.green)
-                        .foregroundColor(.white)
-                        .cornerRadius(12)
-                }
+                .tabViewStyle(PageTabViewStyle())
             }
-            .padding(.horizontal)
-            .padding(.bottom, 60)
+        }
+        .onAppear {
+            Task { await viewModel.fetchYourOffers() }
+        }
+    }
+}
+
+struct OfferCardView: View {
+    let offer: TradeOffer
+
+    var body: some View {
+        VStack(spacing: 20) {
+            Text("Offered Items:")
+                .font(.headline)
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack {
+                    ForEach(offer.offeredItems, id: \.id) { item in
+                        VStack {
+                            if let image = item.images.first {
+                                image
+                                    .resizable()
+                                    .frame(width: 80, height: 80)
+                                    .cornerRadius(6)
+                            } else {
+                                Rectangle()
+                                    .fill(Color.gray.opacity(0.3))
+                                    .frame(width: 80, height: 80)
+                            }
+                            Text(item.title)
+                                .font(.caption)
+                                .lineLimit(1)
+                        }
+                    }
+                }
+                .padding(.horizontal)
+            }
+
+            Text("In Exchange For:")
+                .font(.headline)
+            Text(offer.forItem.title)
+                .font(.title3)
+                .bold()
+
+            Text("Status: \(offer.status.rawValue)")
+                .foregroundColor(.blue)
+                .padding(.top)
+
+            Spacer()
         }
         .padding()
     }
 }
+
 
 
 #Preview {
